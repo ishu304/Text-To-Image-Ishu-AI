@@ -8,6 +8,30 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Adsterra Banner Ad Script -->
+    <script type="text/javascript">
+      atOptions = {
+        'key' : '2f7367823bb737d3e63104c8173b759e',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+      };
+    </script>
+    <script
+      type="text/javascript"
+      src="https://www.highperformanceformat.com/2f7367823bb737d3e63104c8173b759e/invoke.js"
+    ></script>
+    <!-- Adsterra Social Bar Script -->
+    <script
+      type="text/javascript"
+      src="https://pl28256501.effectivegatecpm.com/54/6f/16/546f16d07a3843d4b39eb713e8e502cf.js"
+    ></script>
+    <!-- Adsterra Popunder Script -->
+    <script
+      type="text/javascript"
+      src="https://pl28256514.effectivegatecpm.com/10/fe/e4/10fee417bd8daa94a8506d40ac84d34a.js"
+    ></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
@@ -164,46 +188,11 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Chart Container */
-        .chart-container {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 10px 0;
-        }
-
-        /* Fixed Analytics Panel */
-        .fixed-analytics-panel {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            width: 350px;
-            z-index: 40;
-            transition: all 0.3s ease;
-        }
-
-        @media (max-width: 1400px) {
-            .fixed-analytics-panel {
-                width: 320px;
-            }
-        }
-
-        @media (max-width: 1200px) {
-            .fixed-analytics-panel {
-                display: none;
-            }
-        }
-
         /* Live Pulse Animation */
         @keyframes pulse {
-
-            0%,
-            100% {
+            0%, 100% {
                 opacity: 1;
             }
-
             50% {
                 opacity: 0.5;
             }
@@ -213,16 +202,23 @@
             animation: pulse 2s infinite;
         }
 
-        /* Graph Controls */
-        .graph-controls {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 10;
+        /* Analytics Panel */
+        .analytics-panel {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            width: 350px;
+            z-index: 40;
+            transition: all 0.3s ease;
+            transform: translateX(0);
         }
 
-        /* Graph Toggle Button */
-        #graphToggleBtn {
+        .analytics-panel.collapsed {
+            transform: translateX(380px);
+        }
+
+        /* Analytics Toggle Button */
+        #analyticsToggleBtn {
             position: fixed;
             top: 100px;
             right: 20px;
@@ -239,12 +235,50 @@
             transition: all 0.3s ease;
         }
 
-        #graphToggleBtn:hover {
+        #analyticsToggleBtn:hover {
             transform: scale(1.1);
         }
 
-        @media (min-width: 1200px) {
-            #graphToggleBtn {
+        /* Resize Handle */
+        .resize-handle {
+            position: absolute;
+            left: -10px;
+            top: 0;
+            bottom: 0;
+            width: 10px;
+            cursor: ew-resize;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .resize-handle::before {
+            content: '';
+            width: 4px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
+
+        .resize-handle:hover::before {
+            background: rgba(255, 255, 255, 0.4);
+            width: 6px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .analytics-panel {
+                width: 90%;
+                right: 5%;
+                left: 5%;
+            }
+            
+            .analytics-panel.collapsed {
+                transform: translateX(100%);
+            }
+            
+            .resize-handle {
                 display: none;
             }
         }
@@ -278,103 +312,158 @@
         </div>
     </nav>
 
-    <!-- Graph Toggle Button (Mobile) -->
-    <div id="graphToggleBtn" class="hidden">
+    <!-- Analytics Toggle Button -->
+    <div id="analyticsToggleBtn" title="Toggle Analytics Panel">
         <i class="fas fa-chart-line text-white"></i>
     </div>
 
-    <!-- Fixed Analytics Panel -->
-    <div id="fixedAnalyticsPanel" class="fixed-analytics-panel glass rounded-xl p-4 shadow-2xl">
-        <div class="flex justify-between items-center mb-3">
-            <div>
-                <h3 class="font-bold text-sm">📈 Live Analytics</h3>
-                <div class="flex items-center">
+    <!-- Live Analytics Panel -->
+    <div id="analyticsPanel" class="analytics-panel glass rounded-xl p-4 shadow-2xl">
+        <div class="resize-handle"></div>
+        
+        <div class="flex justify-between items-center mb-4">
+            <div class="flex items-center">
+                <h3 class="font-bold text-lg mr-2">📊 Live Analytics</h3>
+                <div class="flex items-center bg-green-900/30 px-2 py-1 rounded-full">
                     <span class="text-green-500 text-xs font-bold live-pulse mr-1">●</span>
-                    <span class="text-gray-400 text-xs">Live</span>
+                    <span class="text-green-400 text-xs">LIVE</span>
                 </div>
             </div>
-            <button onclick="toggleAnalyticsPanel()" class="text-gray-400 hover:text-white transition">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-
-        <!-- Stats Summary -->
-        <div class="grid grid-cols-2 gap-2 mb-3">
-            <div class="bg-white/5 p-2 rounded-lg">
-                <p class="text-gray-400 text-xs">Total Users</p>
-                <p class="font-bold" id="fixedTotalUsers">0</p>
-                <p class="text-green-400 text-xs" id="fixedNewUsers">+0 today</p>
-            </div>
-            <div class="bg-white/5 p-2 rounded-lg">
-                <p class="text-gray-400 text-xs">Total Images</p>
-                <p class="font-bold" id="fixedTotalImages">0</p>
-                <p class="text-purple-400 text-xs" id="fixedImagesToday">+0 today</p>
-            </div>
-            <div class="bg-white/5 p-2 rounded-lg">
-                <p class="text-gray-400 text-xs">Active Now</p>
-                <p class="font-bold" id="fixedActiveSessions">0</p>
-                <p class="text-blue-400 text-xs">Last 30 min</p>
-            </div>
-            <div class="bg-white/5 p-2 rounded-lg">
-                <p class="text-gray-400 text-xs">Peak Usage</p>
-                <p class="font-bold" id="fixedPeakUsage">0</p>
-                <p class="text-red-400 text-xs" id="fixedPeakTime">No data</p>
+            <div class="flex items-center space-x-2">
+                <button onclick="toggleAnalyticsPanel()" class="text-gray-400 hover:text-white transition p-1" title="Close Panel">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
         </div>
 
-        <!-- Main Graph -->
-        <div class="mb-3">
-            <div class="flex justify-between items-center mb-2">
-                <h4 class="font-bold text-sm">Usage Trends</h4>
-                <select id="fixedTimeRange" onchange="updateFixedChart()"
-                    class="bg-gray-900 text-white text-xs px-2 py-1 rounded">
-                    <option value="7">7D</option>
-                    <option value="30" selected>30D</option>
-                    <option value="90">90D</option>
-                </select>
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-2 gap-3 mb-4">
+            <div class="glass p-3 rounded-lg">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-400 text-xs mb-1">Total Users</p>
+                        <p class="font-bold text-xl" id="liveTotalUsers">1</p>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-blue-900/30 flex items-center justify-center">
+                        <i class="fas fa-users text-blue-400 text-sm"></i>
+                    </div>
+                </div>
+                <p class="text-green-400 text-xs mt-1" id="liveNewUsers">+1 today</p>
+            </div>
+            
+            <div class="glass p-3 rounded-lg">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-400 text-xs mb-1">Total Images</p>
+                        <p class="font-bold text-xl" id="liveTotalImages">8</p>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-purple-900/30 flex items-center justify-center">
+                        <i class="fas fa-image text-purple-400 text-sm"></i>
+                    </div>
+                </div>
+                <p class="text-purple-400 text-xs mt-1" id="liveImagesToday">+5 today</p>
+            </div>
+            
+            <div class="glass p-3 rounded-lg">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-400 text-xs mb-1">Active Now</p>
+                        <p class="font-bold text-xl" id="liveActiveSessions">5</p>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-green-900/30 flex items-center justify-center">
+                        <i class="fas fa-bolt text-green-400 text-sm"></i>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-xs mt-1">Last 30 min</p>
+            </div>
+            
+            <div class="glass p-3 rounded-lg">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-400 text-xs mb-1">Peak Usage</p>
+                        <p class="font-bold text-xl" id="livePeakUsage">16</p>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-red-900/30 flex items-center justify-center">
+                        <i class="fas fa-chart-line text-red-400 text-sm"></i>
+                    </div>
+                </div>
+                <p class="text-red-400 text-xs mt-1" id="livePeakTime">Hour: 4:00</p>
+            </div>
+        </div>
+
+        <!-- Live Graph -->
+        <div class="mb-4">
+            <div class="flex justify-between items-center mb-3">
+                <h4 class="font-bold">Live Usage Graph</h4>
+                <div class="flex space-x-1">
+                    <select id="liveTimeRange" onchange="updateLiveChart()" class="bg-gray-900 text-white text-xs px-2 py-1 rounded">
+                        <option value="7">7D</option>
+                        <option value="30" selected>30D</option>
+                        <option value="90">90D</option>
+                    </select>
+                    <button onclick="refreshLiveAnalytics()" class="bg-gray-800 hover:bg-gray-700 text-xs px-2 py-1 rounded" title="Refresh">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
             </div>
             <div class="relative" style="height: 200px;">
-                <canvas id="fixedChart"></canvas>
+                <canvas id="liveChart"></canvas>
             </div>
-            <div class="grid grid-cols-4 gap-1 mt-2 text-center text-[10px] text-gray-400">
+            <div class="flex justify-center space-x-4 mt-2 text-xs text-gray-400">
                 <div><span class="inline-block w-2 h-2 bg-blue-500 rounded-full mr-1"></span> Users</div>
                 <div><span class="inline-block w-2 h-2 bg-purple-500 rounded-full mr-1"></span> Images</div>
                 <div><span class="inline-block w-2 h-2 bg-green-500 rounded-full mr-1"></span> Active</div>
-                <div><span class="inline-block w-2 h-2 bg-red-500 rounded-full mr-1"></span> Peak</div>
             </div>
         </div>
 
         <!-- Real-time Activity -->
-        <div>
-            <h4 class="font-bold text-sm mb-2">Real-time Activity</h4>
-            <div class="space-y-2">
+        <div class="mb-4">
+            <h4 class="font-bold mb-2">Real-time Activity</h4>
+            <div class="space-y-3">
                 <div>
-                    <div class="flex justify-between text-xs mb-1">
-                        <span class="text-gray-400">Current Activity</span>
-                        <span class="font-bold" id="fixedActivityLevel">0%</span>
+                    <div class="flex justify-between text-sm mb-1">
+                        <span class="text-gray-400">Current Activity Level</span>
+                        <span class="font-bold" id="liveActivityLevel">75%</span>
                     </div>
                     <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden">
-                        <div id="fixedActivityBar" class="h-full bg-gradient-to-r from-blue-500 to-purple-600"
-                            style="width: 0%"></div>
+                        <div id="liveActivityBar" class="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 transition-all duration-500" style="width: 75%"></div>
                     </div>
                 </div>
-                <div class="flex justify-between text-xs">
-                    <div>
-                        <p class="text-gray-400">Updates every:</p>
-                        <p class="font-bold">30 sec</p>
+                
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="text-center p-2 bg-white/5 rounded">
+                        <p class="text-gray-400 text-xs">Updates Every</p>
+                        <p class="font-bold text-sm">30s</p>
                     </div>
-                    <button onclick="refreshAnalytics()" class="text-blue-400 hover:text-blue-300">
-                        <i class="fas fa-sync-alt"></i> Refresh
-                    </button>
+                    <div class="text-center p-2 bg-white/5 rounded">
+                        <p class="text-gray-400 text-xs">Last Update</p>
+                        <p class="font-bold text-sm" id="lastUpdateTime">Just now</p>
+                    </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="flex justify-between">
+            <button onclick="openSnakeGame()" class="text-xs bg-gradient-to-r from-green-900 to-blue-900 hover:opacity-90 px-3 py-2 rounded-lg flex items-center">
+                <i class="fas fa-gamepad mr-2"></i> Play Game
+            </button>
+            <button onclick="toggleAnalyticsPanel()" class="text-xs bg-gray-800 hover:bg-gray-700 px-3 py-2 rounded-lg flex items-center">
+                <i class="fas fa-eye-slash mr-2"></i> Hide Panel
+            </button>
         </div>
     </div>
 
     <main class="max-w-7xl mx-auto px-6 py-12">
 
-        <!-- Hero Section -->
+        <!-- Hero Section with Banner Ad -->
         <section id="generate" class="text-center mb-20">
+            <!-- Adsterra Native Banner Ad -->
+            <div class="max-w-4xl mx-auto mb-8">
+                <div class="ad-label">ADVERTISEMENT</div>
+                <div id="container-00c31db17f30b1c6791955d45af28927"></div>
+            </div>
+
             <h1 class="text-5xl md:text-7xl font-black mb-6 tracking-tight">
                 Turn Your Words Into <br>
                 <span class="gradient-text">Masterpieces</span>
@@ -382,6 +471,17 @@
             <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12">
                 Get <span class="text-green-400 font-bold">2 FREE images</span>, then watch ads for unlimited creations!
             </p>
+
+            <!-- Adsterra Banner Ad (728x90) -->
+            <div class="max-w-4xl mx-auto mb-6 text-center">
+                <div class="ad-label">SPONSORED CONTENT</div>
+                <div id="adsterra-banner-728x90"></div>
+                <script type="text/javascript">
+                    if (typeof atOptions != 'undefined') {
+                        document.write('<scr' + 'ipt type="text/javascript" src="https://www.highperformanceformat.com/2f7367823bb737d3e63104c8173b759e/invoke.js"></scr' + 'ipt>');
+                    }
+                </script>
+            </div>
 
             <!-- Free Counter -->
             <div id="freeCounter" class="free-counter max-w-4xl mx-auto mb-6">
@@ -514,6 +614,18 @@
             </div>
         </section>
 
+        <!-- Footer Banner Ad -->
+        <div class="max-w-4xl mx-auto mt-20 text-center">
+            <div class="ad-label">ADVERTISEMENT</div>
+            <div id="footer-banner-ad"></div>
+            <script type="text/javascript">
+                // Create another banner ad at footer
+                if (typeof atOptions != 'undefined') {
+                    document.write('<scr' + 'ipt type="text/javascript" src="https://www.highperformanceformat.com/2f7367823bb737d3e63104c8173b759e/invoke.js"></scr' + 'ipt>');
+                }
+            </script>
+        </div>
+
     </main>
 
     <!-- Footer -->
@@ -567,8 +679,7 @@
     </footer>
 
     <!-- Snake Game Button -->
-    <div id="snakeGameBtn"
-        class="fixed bottom-4 right-4 z-50 w-12 h-12 rounded-full gradient-btn flex items-center justify-center cursor-pointer shadow-lg hover:scale-110 transition-transform">
+    <div id="snakeGameBtn" class="fixed bottom-4 right-4 z-50 w-12 h-12 rounded-full gradient-btn flex items-center justify-center cursor-pointer shadow-lg hover:scale-110 transition-transform">
         <i class="fas fa-gamepad text-white"></i>
     </div>
 
@@ -592,15 +703,13 @@
                 </div>
             </div>
         </div>
-
+        
         <!-- Snake Game Canvas -->
         <div class="relative">
             <canvas id="snakeGame" width="400" height="400" class="border-2 border-white/20 rounded-lg"></canvas>
             <div class="text-center mt-4">
-                <button onclick="startSnakeGame()" class="gradient-btn px-6 py-2 rounded-lg font-bold mr-2">Start
-                    Game</button>
-                <button onclick="closeSnakeGame()"
-                    class="px-6 py-2 rounded-lg border border-white/20 hover:bg-white/10">Close</button>
+                <button onclick="startSnakeGame()" class="gradient-btn px-6 py-2 rounded-lg font-bold mr-2">Start Game</button>
+                <button onclick="closeSnakeGame()" class="px-6 py-2 rounded-lg border border-white/20 hover:bg-white/10">Close</button>
             </div>
         </div>
     </div>
@@ -614,6 +723,13 @@
         </div>
     </div>
 
+    <!-- Adsterra Native Banner Script -->
+    <script
+      async="async"
+      data-cfasync="false"
+      src="https://pl28256470.effectivegatecpm.com/00c31db17f30b1c6791955d45af28927/invoke.js"
+    ></script>
+
     <script>
         // State Management
         let history = JSON.parse(localStorage.getItem('dg_history')) || [];
@@ -621,9 +737,12 @@
         let freeImagesUsed = parseInt(localStorage.getItem('dg_free_images')) || 0;
         const MAX_FREE_IMAGES = 2;
 
-        // Chart Instance
-        let fixedChart = null;
-        let analyticsPanelVisible = true;
+        // Live Analytics Variables
+        let liveChart = null;
+        let analyticsPanelOpen = true;
+        let isResizing = false;
+        let panelWidth = 350;
+        let lastUpdateTimestamp = Date.now();
 
         // Analytics Data
         let analyticsData = {
@@ -635,7 +754,8 @@
             peakHour: 4,
             hourlyData: {},
             userGrowth: [],
-            sessionData: []
+            sessionData: [],
+            activityHistory: []
         };
 
         // UI Elements
@@ -669,76 +789,174 @@
         let gameLoop = null;
         let score = 0;
 
+        // Adsterra SmartLink URL for generate button
+        const SMARTLINK_URL = "https://your-smartlink-url-from-adsterra.com";
+
         // Initial Render
         function init() {
             renderHistory();
             updateFreeCounter();
             loadAnalyticsData();
-            initializeFixedChart();
-            startRealTimeUpdates();
-            setupMobileToggle();
-
+            initializeLiveChart();
+            setupAnalyticsPanel();
+            startLiveUpdates();
+            setupAdsterraAds();
+            
             // Update every 30 seconds
             setInterval(() => {
-                trackUserStats();
-                updateFixedAnalytics();
-                updateFixedChart();
+                updateLiveData();
             }, 30000);
         }
 
-        // Setup mobile toggle button
-        function setupMobileToggle() {
-            const toggleBtn = document.getElementById('graphToggleBtn');
-            const panel = document.getElementById('fixedAnalyticsPanel');
-
-            if (window.innerWidth < 1200) {
-                toggleBtn.classList.remove('hidden');
-                panel.style.display = 'none';
-                analyticsPanelVisible = false;
+        // Setup Adsterra Ads
+        function setupAdsterraAds() {
+            // Load banner ads dynamically
+            const bannerDiv = document.getElementById('adsterra-banner-728x90');
+            if (bannerDiv && typeof atOptions != 'undefined') {
+                const script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = 'https://www.highperformanceformat.com/2f7367823bb737d3e63104c8173b759e/invoke.js';
+                bannerDiv.appendChild(script);
             }
 
-            toggleBtn.addEventListener('click', function () {
-                if (analyticsPanelVisible) {
-                    panel.style.display = 'none';
-                    toggleBtn.innerHTML = '<i class="fas fa-chart-line text-white"></i>';
-                } else {
-                    panel.style.display = 'block';
-                    toggleBtn.innerHTML = '<i class="fas fa-times text-white"></i>';
-                }
-                analyticsPanelVisible = !analyticsPanelVisible;
-            });
+            // Setup footer banner
+            const footerBannerDiv = document.getElementById('footer-banner-ad');
+            if (footerBannerDiv && typeof atOptions != 'undefined') {
+                const script2 = document.createElement('script');
+                script2.type = 'text/javascript';
+                script2.src = 'https://www.highperformanceformat.com/2f7367823bb737d3e63104c8173b759e/invoke.js';
+                footerBannerDiv.appendChild(script2);
+            }
 
-            // Handle window resize
-            window.addEventListener('resize', function () {
-                if (window.innerWidth >= 1200) {
-                    toggleBtn.classList.add('hidden');
-                    panel.style.display = 'block';
+            // Initialize Social Bar (it loads automatically from head script)
+            console.log('Adsterra Social Bar initialized');
+            
+            // Initialize Popunder (it loads automatically from head script)
+            console.log('Adsterra Popunder initialized');
+            
+            // Initialize Native Banner (it loads automatically from head script)
+            console.log('Adsterra Native Banner initialized');
+        }
+
+        // Setup Analytics Panel
+        function setupAnalyticsPanel() {
+            const toggleBtn = document.getElementById('analyticsToggleBtn');
+            const panel = document.getElementById('analyticsPanel');
+            const resizeHandle = panel.querySelector('.resize-handle');
+            
+            // Toggle button click
+            toggleBtn.addEventListener('click', function() {
+                analyticsPanelOpen = !analyticsPanelOpen;
+                if (analyticsPanelOpen) {
+                    panel.classList.remove('collapsed');
+                    toggleBtn.innerHTML = '<i class="fas fa-chart-line text-white"></i>';
+                    toggleBtn.title = "Close Analytics Panel";
                 } else {
-                    toggleBtn.classList.remove('hidden');
-                    if (!analyticsPanelVisible) {
-                        panel.style.display = 'none';
-                    }
+                    panel.classList.add('collapsed');
+                    toggleBtn.innerHTML = '<i class="fas fa-chart-bar text-white"></i>';
+                    toggleBtn.title = "Open Analytics Panel";
+                }
+            });
+            
+            // Resize functionality
+            resizeHandle.addEventListener('mousedown', function(e) {
+                isResizing = true;
+                document.body.style.cursor = 'ew-resize';
+                e.preventDefault();
+            });
+            
+            document.addEventListener('mousemove', function(e) {
+                if (!isResizing) return;
+                
+                const screenWidth = window.innerWidth;
+                const minWidth = 280;
+                const maxWidth = 500;
+                
+                // Calculate new width
+                let newWidth = screenWidth - e.clientX;
+                newWidth = Math.max(minWidth, Math.min(maxWidth, newWidth));
+                
+                // Apply new width
+                panel.style.width = newWidth + 'px';
+                panelWidth = newWidth;
+            });
+            
+            document.addEventListener('mouseup', function() {
+                if (isResizing) {
+                    isResizing = false;
+                    document.body.style.cursor = '';
+                    savePanelSettings();
+                }
+            });
+            
+            // Load saved panel settings
+            loadPanelSettings();
+            
+            // Mobile responsive
+            window.addEventListener('resize', function() {
+                if (window.innerWidth < 768) {
+                    panel.style.width = '90%';
+                    panel.style.right = '5%';
+                    panel.style.left = '5%';
+                } else {
+                    panel.style.width = panelWidth + 'px';
+                    panel.style.right = '20px';
+                    panel.style.left = 'auto';
                 }
             });
         }
-
+        
+        // Save panel settings
+        function savePanelSettings() {
+            localStorage.setItem('analyticsPanelWidth', panelWidth);
+            localStorage.setItem('analyticsPanelOpen', analyticsPanelOpen);
+        }
+        
+        // Load panel settings
+        function loadPanelSettings() {
+            const savedWidth = localStorage.getItem('analyticsPanelWidth');
+            const savedOpen = localStorage.getItem('analyticsPanelOpen');
+            
+            if (savedWidth) {
+                panelWidth = parseInt(savedWidth);
+                document.getElementById('analyticsPanel').style.width = panelWidth + 'px';
+            }
+            
+            if (savedOpen !== null) {
+                analyticsPanelOpen = savedOpen === 'true';
+                if (!analyticsPanelOpen) {
+                    document.getElementById('analyticsPanel').classList.add('collapsed');
+                    document.getElementById('analyticsToggleBtn').innerHTML = '<i class="fas fa-chart-bar text-white"></i>';
+                }
+            }
+        }
+        
         // Toggle analytics panel
         function toggleAnalyticsPanel() {
-            const panel = document.getElementById('fixedAnalyticsPanel');
-            if (window.innerWidth < 1200) {
-                panel.style.display = 'none';
-                document.getElementById('graphToggleBtn').innerHTML = '<i class="fas fa-chart-line text-white"></i>';
-                analyticsPanelVisible = false;
+            analyticsPanelOpen = !analyticsPanelOpen;
+            const panel = document.getElementById('analyticsPanel');
+            const toggleBtn = document.getElementById('analyticsToggleBtn');
+            
+            if (analyticsPanelOpen) {
+                panel.classList.remove('collapsed');
+                toggleBtn.innerHTML = '<i class="fas fa-chart-line text-white"></i>';
+                showNotification('Analytics panel opened!', 'success');
+            } else {
+                panel.classList.add('collapsed');
+                toggleBtn.innerHTML = '<i class="fas fa-chart-bar text-white"></i>';
+                showNotification('Analytics panel closed!', 'info');
             }
+            
+            savePanelSettings();
         }
 
-        // Load Analytics Data from LocalStorage
+        // Load Analytics Data
         function loadAnalyticsData() {
             const savedData = localStorage.getItem('dreamgen_analytics');
             if (savedData) {
                 analyticsData = JSON.parse(savedData);
             } else {
-                // Initialize with sample data for demo
+                // Initialize with sample data
                 analyticsData = {
                     totalUsers: 1,
                     totalImages: history.length || 8,
@@ -750,10 +968,24 @@
                     peakHour: 4,
                     hourlyData: generateSampleHourlyData(),
                     userGrowth: generateSampleUserGrowth(),
-                    sessionData: generateSampleSessionData()
+                    sessionData: generateSampleSessionData(),
+                    activityHistory: generateActivityHistory()
                 };
             }
-            updateFixedAnalytics();
+            updateLiveDisplay();
+        }
+
+        // Generate sample activity history
+        function generateActivityHistory() {
+            const history = [];
+            const now = Date.now();
+            for (let i = 29; i >= 0; i--) {
+                history.push({
+                    timestamp: now - (i * 24 * 60 * 60 * 1000),
+                    activity: Math.floor(Math.random() * 30) + 50
+                });
+            }
+            return history;
         }
 
         // Generate sample hourly data
@@ -762,12 +994,11 @@
             for (let i = 0; i < 24; i++) {
                 data[i] = Math.floor(Math.random() * 20);
             }
-            // Set peak at 4:00
-            data[4] = 16;
+            data[4] = 16; // Peak at 4:00
             return data;
         }
 
-        // Generate sample user growth data
+        // Generate sample user growth
         function generateSampleUserGrowth() {
             const growth = [];
             const today = new Date();
@@ -791,153 +1022,137 @@
                 time.setMinutes(time.getMinutes() - i * 10);
                 sessions.push({
                     startTime: time.toISOString(),
-                    duration: Math.floor(Math.random() * 600) + 60 // 1-10 minutes
+                    duration: Math.floor(Math.random() * 600) + 60
                 });
             }
             return sessions;
         }
 
-        // Save Analytics Data to LocalStorage
-        function saveAnalyticsData() {
-            localStorage.setItem('dreamgen_analytics', JSON.stringify(analyticsData));
+        // Update Live Display
+        function updateLiveDisplay() {
+            const today = new Date().toDateString();
+            const yesterday = new Date(Date.now() - 86400000).toDateString();
+            
+            // Update stats
+            document.getElementById('liveTotalUsers').textContent = analyticsData.totalUsers;
+            document.getElementById('liveTotalImages').textContent = history.length || analyticsData.totalImages;
+            document.getElementById('liveActiveSessions').textContent = analyticsData.activeSessions;
+            document.getElementById('livePeakUsage').textContent = analyticsData.peakUsage;
+            
+            // Update today's stats
+            const newUsersToday = analyticsData.userGrowth.filter(u => u.date === today)
+                .reduce((sum, u) => sum + u.newUsers, 0);
+            document.getElementById('liveNewUsers').textContent = `+${newUsersToday} today`;
+            
+            const imagesToday = analyticsData.dailyUsage[today] || 0;
+            document.getElementById('liveImagesToday').textContent = `+${imagesToday} today`;
+            
+            // Update peak time
+            if (analyticsData.peakHour !== null) {
+                document.getElementById('livePeakTime').textContent = `Hour: ${analyticsData.peakHour}:00`;
+            }
+            
+            // Update activity level
+            const activityLevel = Math.min(analyticsData.activeSessions / 10 * 100, 100);
+            document.getElementById('liveActivityBar').style.width = `${activityLevel}%`;
+            document.getElementById('liveActivityLevel').textContent = `${Math.round(activityLevel)}%`;
+            
+            // Update last update time
+            updateLastUpdateTime();
         }
 
-        // Track User Statistics
-        function trackUserStats() {
-            const now = new Date();
-            const today = now.toDateString();
-            const hour = now.getHours();
-
-            // Generate unique user ID if not exists
-            let userId = localStorage.getItem('dg_user_id');
-            if (!userId) {
-                userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                localStorage.setItem('dg_user_id', userId);
-                analyticsData.totalUsers++;
-
-                // Track new user
-                analyticsData.userGrowth.push({
-                    date: today,
-                    newUsers: 1,
-                    totalUsers: analyticsData.totalUsers
-                });
+        // Update last update time
+        function updateLastUpdateTime() {
+            const now = Date.now();
+            const diff = Math.floor((now - lastUpdateTimestamp) / 1000);
+            
+            let timeText = '';
+            if (diff < 60) {
+                timeText = 'Just now';
+            } else if (diff < 3600) {
+                const mins = Math.floor(diff / 60);
+                timeText = `${mins} min ago`;
+            } else if (diff < 86400) {
+                const hours = Math.floor(diff / 3600);
+                timeText = `${hours} hour${hours > 1 ? 's' : ''} ago`;
+            } else {
+                const days = Math.floor(diff / 86400);
+                timeText = `${days} day${days > 1 ? 's' : ''} ago`;
             }
+            
+            document.getElementById('lastUpdateTime').textContent = timeText;
+        }
 
-            // Update daily usage
-            if (!analyticsData.dailyUsage[today]) {
-                analyticsData.dailyUsage[today] = 0;
-            }
-
+        // Update Live Data
+        function updateLiveData() {
+            // Simulate real-time updates
+            const hour = new Date().getHours();
+            
             // Update hourly data
             if (!analyticsData.hourlyData[hour]) {
                 analyticsData.hourlyData[hour] = 0;
             }
-            analyticsData.hourlyData[hour]++;
-
-            // Update peak usage
+            analyticsData.hourlyData[hour] += Math.floor(Math.random() * 3);
+            
+            // Update active sessions
+            analyticsData.activeSessions = Math.max(1, 
+                Math.floor(analyticsData.activeSessions + (Math.random() - 0.5) * 2)
+            );
+            
+            // Update daily usage
+            const today = new Date().toDateString();
+            analyticsData.dailyUsage[today] = (analyticsData.dailyUsage[today] || 0) + Math.floor(Math.random());
+            
+            // Update peak usage if needed
             if (analyticsData.hourlyData[hour] > analyticsData.peakUsage) {
                 analyticsData.peakUsage = analyticsData.hourlyData[hour];
                 analyticsData.peakHour = hour;
             }
-
-            // Track session
-            analyticsData.sessionData.push({
-                startTime: now.toISOString(),
-                duration: 300 // 5 minutes default
-            });
-
-            // Keep only last 100 sessions
-            if (analyticsData.sessionData.length > 100) {
-                analyticsData.sessionData = analyticsData.sessionData.slice(-100);
-            }
-
-            // Calculate active sessions (last 30 minutes)
-            const thirtyMinutesAgo = Date.now() - 30 * 60 * 1000;
-            analyticsData.activeSessions = analyticsData.sessionData.filter(s =>
-                new Date(s.startTime).getTime() > thirtyMinutesAgo
-            ).length;
-
-            saveAnalyticsData();
-            updateStatsDisplay();
+            
+            // Save data
+            localStorage.setItem('dreamgen_analytics', JSON.stringify(analyticsData));
+            
+            // Update display
+            updateLiveDisplay();
+            updateLiveChart();
+            
+            lastUpdateTimestamp = Date.now();
         }
 
-        // Update Fixed Analytics Display
-        function updateFixedAnalytics() {
-            // Update stats counters
-            document.getElementById('fixedTotalUsers').textContent = analyticsData.totalUsers;
-            document.getElementById('fixedTotalImages').textContent = history.length || analyticsData.totalImages;
-
-            // Calculate today's stats
-            const today = new Date().toDateString();
-            const yesterday = new Date(Date.now() - 86400000).toDateString();
-
-            // Update new users today
-            const newUsersToday = analyticsData.userGrowth.filter(u => u.date === today)
-                .reduce((sum, u) => sum + u.newUsers, 0);
-            document.getElementById('fixedNewUsers').textContent = `+${newUsersToday} today`;
-
-            // Update images today
-            const imagesToday = analyticsData.dailyUsage[today] || 0;
-            document.getElementById('fixedImagesToday').textContent = `+${imagesToday} today`;
-
-            // Update active sessions
-            document.getElementById('fixedActiveSessions').textContent = analyticsData.activeSessions;
-
-            // Update peak usage
-            document.getElementById('fixedPeakUsage').textContent = analyticsData.peakUsage;
-            if (analyticsData.peakHour !== null) {
-                document.getElementById('fixedPeakTime').textContent = `${analyticsData.peakHour}:00`;
-            }
-
-            // Update activity bar
-            const activityLevel = Math.min(analyticsData.activeSessions / 10 * 100, 100);
-            document.getElementById('fixedActivityBar').style.width = `${activityLevel}%`;
-            document.getElementById('fixedActivityLevel').textContent = `${Math.round(activityLevel)}%`;
-        }
-
-        // Refresh analytics manually
-        function refreshAnalytics() {
-            trackUserStats();
-            updateFixedAnalytics();
-            updateFixedChart();
-            showNotification('Analytics refreshed!', 'success');
-        }
-
-        // Initialize Fixed Chart
-        function initializeFixedChart() {
-            const ctx = document.getElementById('fixedChart').getContext('2d');
-
-            // Generate last 30 days labels (shortened for small chart)
+        // Initialize Live Chart
+        function initializeLiveChart() {
+            const ctx = document.getElementById('liveChart').getContext('2d');
+            
+            // Generate labels for last 30 days
             const labels = [];
             for (let i = 29; i >= 0; i--) {
                 const date = new Date();
                 date.setDate(date.getDate() - i);
-                // Use abbreviated format for small chart
                 if (i % 5 === 0 || i === 29 || i === 0) {
                     labels.push(date.getDate() + '/' + (date.getMonth() + 1));
                 } else {
                     labels.push('');
                 }
             }
-
-            // Generate data for each metric (scaled down for small chart)
-            const totalUsersData = generateTrendData(30, analyticsData.totalUsers, 0.1, 50);
-            const imagesData = generateTrendData(30, history.length || analyticsData.totalImages, 0.3, 30);
-            const sessionsData = generateTrendData(30, analyticsData.activeSessions, 0.5, 20);
-            const peakData = generateTrendData(30, analyticsData.peakUsage, 0.2, 40);
-
-            fixedChart = new Chart(ctx, {
+            
+            // Generate initial data
+            const usersData = generateChartData(30, 1, 0.1, 50);
+            const imagesData = generateChartData(30, 8, 0.3, 30);
+            const activeData = generateChartData(30, 5, 0.5, 20);
+            
+            liveChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [
                         {
                             label: 'Users',
-                            data: totalUsersData,
+                            data: usersData,
                             borderColor: '#3b82f6',
-                            backgroundColor: 'transparent',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
                             borderWidth: 2,
                             tension: 0.4,
+                            fill: true,
                             pointRadius: 0,
                             pointHoverRadius: 3
                         },
@@ -945,29 +1160,21 @@
                             label: 'Images',
                             data: imagesData,
                             borderColor: '#8b5cf6',
-                            backgroundColor: 'transparent',
+                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
                             borderWidth: 2,
                             tension: 0.4,
+                            fill: true,
                             pointRadius: 0,
                             pointHoverRadius: 3
                         },
                         {
                             label: 'Active',
-                            data: sessionsData,
+                            data: activeData,
                             borderColor: '#10b981',
-                            backgroundColor: 'transparent',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
                             borderWidth: 2,
                             tension: 0.4,
-                            pointRadius: 0,
-                            pointHoverRadius: 3
-                        },
-                        {
-                            label: 'Peak',
-                            data: peakData,
-                            borderColor: '#ef4444',
-                            backgroundColor: 'transparent',
-                            borderWidth: 2,
-                            tension: 0.4,
+                            fill: true,
                             pointRadius: 0,
                             pointHoverRadius: 3
                         }
@@ -992,19 +1199,10 @@
                             borderWidth: 1,
                             cornerRadius: 6,
                             padding: 8,
-                            displayColors: false,
+                            displayColors: true,
                             callbacks: {
-                                label: function (context) {
-                                    const datasets = context.chart.data.datasets;
-                                    let label = '';
-                                    datasets.forEach((dataset, i) => {
-                                        if (dataset.data[context.dataIndex] !== undefined) {
-                                            const colors = ['#3b82f6', '#8b5cf6', '#10b981', '#ef4444'];
-                                            const labels = ['Users: ', 'Images: ', 'Active: ', 'Peak: '];
-                                            label += `${labels[i]}${dataset.data[context.dataIndex]}\n`;
-                                        }
-                                    });
-                                    return label;
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.parsed.y}`;
                                 }
                             }
                         }
@@ -1025,58 +1223,46 @@
                         y: {
                             beginAtZero: true,
                             grid: {
-                                color: 'rgba(255, 255, 255, 0.05)',
-                                drawBorder: false
+                                color: 'rgba(255, 255, 255, 0.05)'
                             },
                             ticks: {
                                 color: '#9ca3af',
                                 font: {
                                     size: 9
                                 },
-                                maxTicksLimit: 5,
-                                callback: function (value) {
-                                    if (value >= 1000) return (value / 1000).toFixed(0) + 'k';
-                                    return value;
-                                }
+                                maxTicksLimit: 5
                             }
-                        }
-                    },
-                    elements: {
-                        line: {
-                            tension: 0.4
                         }
                     }
                 }
             });
         }
 
-        // Generate trend data for fixed chart
-        function generateTrendData(days, baseValue, volatility, maxValue) {
+        // Generate chart data
+        function generateChartData(days, baseValue, volatility, maxValue) {
             const data = [];
             let currentValue = baseValue;
-
+            
             for (let i = 0; i < days; i++) {
-                // Add some random movement
                 const change = (Math.random() - 0.5) * 2 * volatility * currentValue;
                 currentValue = Math.max(1, Math.min(maxValue || 100, currentValue + change));
                 data.push(Math.round(currentValue));
             }
-
+            
             return data;
         }
 
-        // Update Fixed Chart based on time range
-        function updateFixedChart() {
-            const timeRange = parseInt(document.getElementById('fixedTimeRange').value);
-
-            // Generate labels for selected time range
+        // Update Live Chart
+        function updateLiveChart() {
+            const timeRange = parseInt(document.getElementById('liveTimeRange').value);
+            
+            // Generate labels
             const labels = [];
             const tickInterval = Math.max(1, Math.floor(timeRange / 6));
-
+            
             for (let i = timeRange - 1; i >= 0; i--) {
                 const date = new Date();
                 date.setDate(date.getDate() - i);
-                // Only show labels at intervals
                 if (i % tickInterval === 0 || i === timeRange - 1 || i === 0) {
                     if (timeRange <= 30) {
                         labels.push(date.getDate() + '/' + (date.getMonth() + 1));
@@ -1087,63 +1273,73 @@
                     labels.push('');
                 }
             }
-
-            // Update chart data
-            fixedChart.data.labels = labels;
-
-            // Update each dataset with new data
+            
+            // Update chart
+            liveChart.data.labels = labels;
+            
+            // Update datasets with new data
             const maxVal = timeRange <= 30 ? 50 : 100;
-            fixedChart.data.datasets[0].data = generateTrendData(timeRange, analyticsData.totalUsers, 0.1, maxVal);
-            fixedChart.data.datasets[1].data = generateTrendData(timeRange, history.length || analyticsData.totalImages, 0.3, maxVal);
-            fixedChart.data.datasets[2].data = generateTrendData(timeRange, analyticsData.activeSessions, 0.5, maxVal);
-            fixedChart.data.datasets[3].data = generateTrendData(timeRange, analyticsData.peakUsage, 0.2, maxVal);
-
-            fixedChart.update('none');
+            liveChart.data.datasets[0].data = generateChartData(timeRange, analyticsData.totalUsers, 0.1, maxVal);
+            liveChart.data.datasets[1].data = generateChartData(timeRange, history.length || analyticsData.totalImages, 0.3, maxVal);
+            liveChart.data.datasets[2].data = generateChartData(timeRange, analyticsData.activeSessions, 0.5, maxVal);
+            
+            liveChart.update('none');
         }
 
-        // Start real-time updates
-        function startRealTimeUpdates() {
-            // Simulate real-time data updates
+        // Refresh Live Analytics
+        function refreshLiveAnalytics() {
+            updateLiveData();
+            showNotification('Live analytics refreshed!', 'success');
+        }
+
+        // Start Live Updates
+        function startLiveUpdates() {
+            // Initial update
+            updateLiveData();
+            
+            // Update every 30 seconds
             setInterval(() => {
-                // Add some random activity
-                const hour = new Date().getHours();
-                if (analyticsData.hourlyData[hour] !== undefined) {
-                    analyticsData.hourlyData[hour] += Math.floor(Math.random() * 3);
+                if (analyticsPanelOpen) {
+                    updateLiveData();
                 }
-
-                // Update active sessions
-                analyticsData.activeSessions = Math.max(1,
-                    Math.floor(analyticsData.activeSessions + (Math.random() - 0.5) * 2)
-                );
-
-                // Update daily usage
-                const today = new Date().toDateString();
-                analyticsData.dailyUsage[today] = (analyticsData.dailyUsage[today] || 0) + Math.floor(Math.random());
-
-                saveAnalyticsData();
-                updateFixedAnalytics();
-            }, 10000); // Update every 10 seconds
+            }, 30000);
         }
 
-        function updateStatsDisplay() {
-            const today = new Date().toDateString();
-            const yesterday = new Date(Date.now() - 86400000).toDateString();
+        // Check and Generate with SmartLink integration
+        function checkAndGenerate() {
+            const prompt = promptInput.value.trim();
 
-            // Calculate percentage change
-            const todayUsage = analyticsData.dailyUsage[today] || 0;
-            const yesterdayUsage = analyticsData.dailyUsage[yesterday] || 0;
-            let percentChange = 0;
-
-            if (yesterdayUsage > 0) {
-                percentChange = Math.round(((todayUsage - yesterdayUsage) / yesterdayUsage) * 100);
-            } else if (todayUsage > 0) {
-                percentChange = 100;
+            if (!prompt) {
+                showNotification('Please enter a prompt first!', 'error');
+                return;
             }
 
-            // Update display
-            document.getElementById('totalUsers').textContent = analyticsData.totalUsers;
-            document.getElementById('usagePercent').textContent = `${percentChange > 0 ? '+' : ''}${percentChange}%`;
-            document.getElementById('activeUsers').textContent = analyticsData.activeSessions;
+            // Check if user has free images left
+            if (freeImagesUsed < MAX_FREE_IMAGES) {
+                // Use free image
+                freeImagesUsed++;
+                localStorage.setItem('dg_free_images', freeImagesUsed);
+                updateFreeCounter();
+                generateImage(prompt);
+                showNotification(`Free image used! ${MAX_FREE_IMAGES - freeImagesUsed} free images remaining.`, 'success');
+            } else {
+                // Show ad modal or redirect to SmartLink
+                const useSmartLink = Math.random() > 0.5; // 50% chance to show SmartLink
+                
+                if (useSmartLink && SMARTLINK_URL) {
+                    // Open SmartLink in new tab
+                    window.open(SMARTLINK_URL, '_blank');
+                    showNotification('Please complete the ad to generate image!', 'info');
+                    
+                    // Generate image after a delay
+                    setTimeout(() => {
+                        generateImage(prompt);
+                    }, 3000);
+                } else {
+                    // Show traditional ad modal
+                    showAdModal();
+                }
+            }
         }
 
         // Snake Game Functions
@@ -1163,41 +1359,36 @@
         function initSnakeGame() {
             const canvas = document.getElementById('snakeGame');
             snakeCtx = canvas.getContext('2d');
-
-            // Initialize snake
+            
             snake = [
-                { x: 10, y: 10 },
-                { x: 9, y: 10 },
-                { x: 8, y: 10 }
+                {x: 10, y: 10},
+                {x: 9, y: 10},
+                {x: 8, y: 10}
             ];
-
-            // Initialize food
+            
             food = {
                 x: Math.floor(Math.random() * 20),
                 y: Math.floor(Math.random() * 20)
             };
-
+            
             direction = 'right';
             score = 0;
-
-            // Draw initial state
+            
             drawSnakeGame();
         }
 
         function startSnakeGame() {
             if (gameLoop) clearInterval(gameLoop);
-
-            // Keyboard controls
+            
             document.addEventListener('keydown', (e) => {
-                switch (e.key) {
+                switch(e.key) {
                     case 'ArrowUp': if (direction !== 'down') direction = 'up'; break;
                     case 'ArrowDown': if (direction !== 'up') direction = 'down'; break;
                     case 'ArrowLeft': if (direction !== 'right') direction = 'left'; break;
                     case 'ArrowRight': if (direction !== 'left') direction = 'right'; break;
                 }
             });
-
-            // Start game loop
+            
             gameLoop = setInterval(() => {
                 moveSnake();
                 checkCollision();
@@ -1207,28 +1398,26 @@
         }
 
         function moveSnake() {
-            const head = { ...snake[0] };
-
-            switch (direction) {
+            const head = {...snake[0]};
+            
+            switch(direction) {
                 case 'up': head.y--; break;
                 case 'down': head.y++; break;
                 case 'left': head.x--; break;
                 case 'right': head.x++; break;
             }
-
+            
             snake.unshift(head);
             snake.pop();
         }
 
         function checkCollision() {
             const head = snake[0];
-
-            // Wall collision
+            
             if (head.x < 0 || head.x >= 20 || head.y < 0 || head.y >= 20) {
                 gameOver();
             }
-
-            // Self collision
+            
             for (let i = 1; i < snake.length; i++) {
                 if (head.x === snake[i].x && head.y === snake[i].y) {
                     gameOver();
@@ -1238,56 +1427,46 @@
 
         function checkFood() {
             const head = snake[0];
-
+            
             if (head.x === food.x && head.y === food.y) {
-                // Grow snake
-                snake.push({ ...snake[snake.length - 1] });
-
-                // Generate new food
+                snake.push({...snake[snake.length - 1]});
+                
                 food = {
                     x: Math.floor(Math.random() * 20),
                     y: Math.floor(Math.random() * 20)
                 };
-
-                // Increase score
+                
                 score += 10;
             }
         }
 
         function drawSnakeGame() {
-            // Clear canvas
             snakeCtx.fillStyle = '#0f172a';
             snakeCtx.fillRect(0, 0, 400, 400);
-
-            // Draw grid
+            
             snakeCtx.strokeStyle = '#1e293b';
             for (let i = 0; i <= 20; i++) {
-                // Vertical lines
                 snakeCtx.beginPath();
                 snakeCtx.moveTo(i * 20, 0);
                 snakeCtx.lineTo(i * 20, 400);
                 snakeCtx.stroke();
-
-                // Horizontal lines
+                
                 snakeCtx.beginPath();
                 snakeCtx.moveTo(0, i * 20);
                 snakeCtx.lineTo(400, i * 20);
                 snakeCtx.stroke();
             }
-
-            // Draw snake
+            
             snake.forEach((segment, index) => {
                 snakeCtx.fillStyle = index === 0 ? '#10b981' : '#34d399';
                 snakeCtx.fillRect(segment.x * 20, segment.y * 20, 18, 18);
             });
-
-            // Draw food
+            
             snakeCtx.fillStyle = '#ef4444';
             snakeCtx.beginPath();
             snakeCtx.arc(food.x * 20 + 10, food.y * 20 + 10, 8, 0, Math.PI * 2);
             snakeCtx.fill();
-
-            // Draw score
+            
             snakeCtx.fillStyle = 'white';
             snakeCtx.font = '16px monospace';
             snakeCtx.fillText(`Score: ${score}`, 10, 20);
@@ -1356,33 +1535,10 @@
             }, 3000);
         }
 
-        function checkAndGenerate() {
-            const prompt = promptInput.value.trim();
-
-            if (!prompt) {
-                showNotification('Please enter a prompt first!', 'error');
-                return;
-            }
-
-            // Check if user has free images left
-            if (freeImagesUsed < MAX_FREE_IMAGES) {
-                // Use free image
-                freeImagesUsed++;
-                localStorage.setItem('dg_free_images', freeImagesUsed);
-                updateFreeCounter();
-                generateImage(prompt);
-                showNotification(`Free image used! ${MAX_FREE_IMAGES - freeImagesUsed} free images remaining.`, 'success');
-            } else {
-                // Show ad modal
-                showAdModal();
-            }
-        }
-
         function showAdModal() {
             adModal.classList.remove('hidden');
             adProgress.style.width = '0%';
 
-            // Simulate ad progress
             let progress = 0;
             const interval = setInterval(() => {
                 progress += 1;
@@ -1408,51 +1564,43 @@
         }
 
         async function generateImage(prompt) {
-            // UI feedback
             generateBtn.disabled = true;
             generateBtn.classList.add('opacity-50');
             loadingState.classList.remove('hidden');
             resultContainer.classList.add('hidden');
 
             try {
-                // Enhance prompt if image is uploaded (Simulation of Image-to-Image for UX)
                 let enhancedPrompt = prompt;
                 if (selectedImageBase64) {
                     enhancedPrompt += " (based on provided visual reference style)";
                 }
 
-                // Call AI Image API
                 const seed = Math.floor(Math.random() * 1000000);
                 const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(enhancedPrompt)}?seed=${seed}&width=1024&height=1024&nologo=true`;
 
-                // Prefetch image to ensure loading state is accurate
                 const img = new Image();
                 img.src = imageUrl;
                 await img.decode();
 
-                // Display result
                 resultImage.src = imageUrl;
                 resultPrompt.innerText = prompt + (selectedImageBase64 ? " (Image Referenced)" : "");
                 resultContainer.classList.remove('hidden');
 
-                // Add to history
                 history.unshift({ prompt: resultPrompt.innerText, url: imageUrl, date: new Date().toISOString() });
                 if (history.length > 8) history.pop();
                 localStorage.setItem('dg_history', JSON.stringify(history));
-
-                // Update analytics
+                
                 analyticsData.totalImages = history.length;
                 const today = new Date().toDateString();
                 analyticsData.dailyUsage[today] = (analyticsData.dailyUsage[today] || 0) + 1;
-                saveAnalyticsData();
-                updateFixedAnalytics();
-                updateFixedChart();
-
+                localStorage.setItem('dreamgen_analytics', JSON.stringify(analyticsData));
+                updateLiveDisplay();
+                updateLiveChart();
+                
                 renderHistory();
 
                 showNotification('Image generated successfully!', 'success');
 
-                // Clear reference image after generation for clean slate
                 if (selectedImageBase64) {
                     removeImage({ preventDefault: () => { }, stopPropagation: () => { } });
                 }
@@ -1508,6 +1656,27 @@
             } else {
                 showNotification('Sharing not supported on this browser.', 'info');
             }
+        }
+
+        function updateStatsDisplay() {
+            const today = new Date().toDateString();
+            const yesterday = new Date(Date.now() - 86400000).toDateString();
+            
+            // Calculate percentage change
+            const todayUsage = analyticsData.dailyUsage[today] || 0;
+            const yesterdayUsage = analyticsData.dailyUsage[yesterday] || 0;
+            let percentChange = 0;
+            
+            if (yesterdayUsage > 0) {
+                percentChange = Math.round(((todayUsage - yesterdayUsage) / yesterdayUsage) * 100);
+            } else if (todayUsage > 0) {
+                percentChange = 100;
+            }
+            
+            // Update display
+            document.getElementById('totalUsers').textContent = analyticsData.totalUsers;
+            document.getElementById('usagePercent').textContent = `${percentChange > 0 ? '+' : ''}${percentChange}%`;
+            document.getElementById('activeUsers').textContent = analyticsData.activeSessions;
         }
 
         // Run Init
