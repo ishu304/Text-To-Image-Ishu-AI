@@ -8,30 +8,19 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Adsterra Banner Ad Script -->
-    <script type="text/javascript">
-      atOptions = {
-        'key' : '2f7367823bb737d3e63104c8173b759e',
-        'format' : 'iframe',
-        'height' : 90,
-        'width' : 728,
-        'params' : {}
-      };
-    </script>
-    <script
-      type="text/javascript"
-      src="https://www.highperformanceformat.com/2f7367823bb737d3e63104c8173b759e/invoke.js"
-    ></script>
-    <!-- Adsterra Social Bar Script -->
-    <script
-      type="text/javascript"
-      src="https://pl28256501.effectivegatecpm.com/54/6f/16/546f16d07a3843d4b39eb713e8e502cf.js"
-    ></script>
+
     <!-- Adsterra Popunder Script -->
-    <script
-      type="text/javascript"
-      src="https://pl28256514.effectivegatecpm.com/10/fe/e4/10fee417bd8daa94a8506d40ac84d34a.js"
-    ></script>
+    <script type="text/javascript"
+        src="https://pl28256514.effectivegatecpm.com/10/fe/e4/10fee417bd8daa94a8506d40ac84d34a.js"></script>
+
+    <!-- Adsterra Social Bar Script -->
+    <script type="text/javascript"
+        src="https://pl28256501.effectivegatecpm.com/54/6f/16/546f16d07a3843d4b39eb713e8e502cf.js"></script>
+
+    <!-- Adsterra Native Banner Script -->
+    <script async="async" data-cfasync="false"
+        src="https://pl28256470.effectivegatecpm.com/00c31db17f30b1c6791955d45af28927/invoke.js"></script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
@@ -39,6 +28,7 @@
             font-family: 'Inter', sans-serif;
             background-color: #030712;
             color: #f3f4f6;
+            overflow-x: hidden;
         }
 
         .glass {
@@ -64,20 +54,32 @@
             box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4);
         }
 
-        .shimmer {
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-            background-size: 200% 100%;
-            animation: shimmer 2s infinite;
+        /* Ad Container Styles */
+        .ad-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+            overflow: hidden;
         }
 
-        @keyframes shimmer {
-            0% {
-                background-position: -200% 0;
-            }
+        .ad-label {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-            100% {
-                background-position: 200% 0;
-            }
+        .free-counter {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 10px;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            text-align: center;
         }
 
         .loader {
@@ -99,100 +101,14 @@
             }
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #030712;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #1f2937;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #374151;
-        }
-
-        /* Ad Container */
-        .ad-container {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .ad-label {
-            font-size: 0.8rem;
-            color: #9ca3af;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .ad-box {
-            min-height: 280px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            margin: 10px 0;
-            overflow: hidden;
-        }
-
-        .ad-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .ad-text {
-            color: #6b7280;
-            font-size: 0.9rem;
-        }
-
-        .free-counter {
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            border-radius: 10px;
-            padding: 0.75rem;
-            margin-top: 1rem;
-            text-align: center;
-        }
-
-        .free-counter p {
-            color: #22c55e;
-            font-size: 0.9rem;
-            margin: 0;
-        }
-
-        .free-counter .counter {
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        /* Snake Game Styles */
-        #snakeGameContainer {
-            font-family: 'Courier New', monospace;
-        }
-
-        #statsPanel {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
         /* Live Pulse Animation */
         @keyframes pulse {
-            0%, 100% {
+
+            0%,
+            100% {
                 opacity: 1;
             }
+
             50% {
                 opacity: 0.5;
             }
@@ -202,85 +118,29 @@
             animation: pulse 2s infinite;
         }
 
-        /* Analytics Panel */
-        .analytics-panel {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            width: 350px;
-            z-index: 40;
-            transition: all 0.3s ease;
-            transform: translateX(0);
-        }
-
-        .analytics-panel.collapsed {
-            transform: translateX(380px);
-        }
-
-        /* Analytics Toggle Button */
-        #analyticsToggleBtn {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            z-index: 50;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+        /* Smartlink Styles */
+        .smartlink-container {
             background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .smartlink-btn {
+            background: white;
+            color: #3b82f6;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            display: inline-block;
+            text-decoration: none;
             transition: all 0.3s ease;
         }
 
-        #analyticsToggleBtn:hover {
-            transform: scale(1.1);
-        }
-
-        /* Resize Handle */
-        .resize-handle {
-            position: absolute;
-            left: -10px;
-            top: 0;
-            bottom: 0;
-            width: 10px;
-            cursor: ew-resize;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .resize-handle::before {
-            content: '';
-            width: 4px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
-            transition: all 0.2s;
-        }
-
-        .resize-handle:hover::before {
-            background: rgba(255, 255, 255, 0.4);
-            width: 6px;
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .analytics-panel {
-                width: 90%;
-                right: 5%;
-                left: 5%;
-            }
-            
-            .analytics-panel.collapsed {
-                transform: translateX(100%);
-            }
-            
-            .resize-handle {
-                display: none;
-            }
+        .smartlink-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
@@ -297,7 +157,6 @@
                 </div>
                 <span class="text-2xl font-extrabold tracking-tight">Dream<span class="gradient-text">Gen</span></span>
             </div>
-
             <div class="flex items-center space-x-6">
                 <div class="hidden md:flex space-x-6 text-sm font-medium text-gray-400">
                     <a href="#generate" class="hover:text-white transition">Generate</a>
@@ -312,153 +171,11 @@
         </div>
     </nav>
 
-    <!-- Analytics Toggle Button -->
-    <div id="analyticsToggleBtn" title="Toggle Analytics Panel">
-        <i class="fas fa-chart-line text-white"></i>
-    </div>
-
-    <!-- Live Analytics Panel -->
-    <div id="analyticsPanel" class="analytics-panel glass rounded-xl p-4 shadow-2xl">
-        <div class="resize-handle"></div>
-        
-        <div class="flex justify-between items-center mb-4">
-            <div class="flex items-center">
-                <h3 class="font-bold text-lg mr-2">📊 Live Analytics</h3>
-                <div class="flex items-center bg-green-900/30 px-2 py-1 rounded-full">
-                    <span class="text-green-500 text-xs font-bold live-pulse mr-1">●</span>
-                    <span class="text-green-400 text-xs">LIVE</span>
-                </div>
-            </div>
-            <div class="flex items-center space-x-2">
-                <button onclick="toggleAnalyticsPanel()" class="text-gray-400 hover:text-white transition p-1" title="Close Panel">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Quick Stats -->
-        <div class="grid grid-cols-2 gap-3 mb-4">
-            <div class="glass p-3 rounded-lg">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-gray-400 text-xs mb-1">Total Users</p>
-                        <p class="font-bold text-xl" id="liveTotalUsers">1</p>
-                    </div>
-                    <div class="w-8 h-8 rounded-full bg-blue-900/30 flex items-center justify-center">
-                        <i class="fas fa-users text-blue-400 text-sm"></i>
-                    </div>
-                </div>
-                <p class="text-green-400 text-xs mt-1" id="liveNewUsers">+1 today</p>
-            </div>
-            
-            <div class="glass p-3 rounded-lg">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-gray-400 text-xs mb-1">Total Images</p>
-                        <p class="font-bold text-xl" id="liveTotalImages">8</p>
-                    </div>
-                    <div class="w-8 h-8 rounded-full bg-purple-900/30 flex items-center justify-center">
-                        <i class="fas fa-image text-purple-400 text-sm"></i>
-                    </div>
-                </div>
-                <p class="text-purple-400 text-xs mt-1" id="liveImagesToday">+5 today</p>
-            </div>
-            
-            <div class="glass p-3 rounded-lg">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-gray-400 text-xs mb-1">Active Now</p>
-                        <p class="font-bold text-xl" id="liveActiveSessions">5</p>
-                    </div>
-                    <div class="w-8 h-8 rounded-full bg-green-900/30 flex items-center justify-center">
-                        <i class="fas fa-bolt text-green-400 text-sm"></i>
-                    </div>
-                </div>
-                <p class="text-gray-400 text-xs mt-1">Last 30 min</p>
-            </div>
-            
-            <div class="glass p-3 rounded-lg">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-gray-400 text-xs mb-1">Peak Usage</p>
-                        <p class="font-bold text-xl" id="livePeakUsage">16</p>
-                    </div>
-                    <div class="w-8 h-8 rounded-full bg-red-900/30 flex items-center justify-center">
-                        <i class="fas fa-chart-line text-red-400 text-sm"></i>
-                    </div>
-                </div>
-                <p class="text-red-400 text-xs mt-1" id="livePeakTime">Hour: 4:00</p>
-            </div>
-        </div>
-
-        <!-- Live Graph -->
-        <div class="mb-4">
-            <div class="flex justify-between items-center mb-3">
-                <h4 class="font-bold">Live Usage Graph</h4>
-                <div class="flex space-x-1">
-                    <select id="liveTimeRange" onchange="updateLiveChart()" class="bg-gray-900 text-white text-xs px-2 py-1 rounded">
-                        <option value="7">7D</option>
-                        <option value="30" selected>30D</option>
-                        <option value="90">90D</option>
-                    </select>
-                    <button onclick="refreshLiveAnalytics()" class="bg-gray-800 hover:bg-gray-700 text-xs px-2 py-1 rounded" title="Refresh">
-                        <i class="fas fa-sync-alt"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="relative" style="height: 200px;">
-                <canvas id="liveChart"></canvas>
-            </div>
-            <div class="flex justify-center space-x-4 mt-2 text-xs text-gray-400">
-                <div><span class="inline-block w-2 h-2 bg-blue-500 rounded-full mr-1"></span> Users</div>
-                <div><span class="inline-block w-2 h-2 bg-purple-500 rounded-full mr-1"></span> Images</div>
-                <div><span class="inline-block w-2 h-2 bg-green-500 rounded-full mr-1"></span> Active</div>
-            </div>
-        </div>
-
-        <!-- Real-time Activity -->
-        <div class="mb-4">
-            <h4 class="font-bold mb-2">Real-time Activity</h4>
-            <div class="space-y-3">
-                <div>
-                    <div class="flex justify-between text-sm mb-1">
-                        <span class="text-gray-400">Current Activity Level</span>
-                        <span class="font-bold" id="liveActivityLevel">75%</span>
-                    </div>
-                    <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden">
-                        <div id="liveActivityBar" class="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 transition-all duration-500" style="width: 75%"></div>
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-2">
-                    <div class="text-center p-2 bg-white/5 rounded">
-                        <p class="text-gray-400 text-xs">Updates Every</p>
-                        <p class="font-bold text-sm">30s</p>
-                    </div>
-                    <div class="text-center p-2 bg-white/5 rounded">
-                        <p class="text-gray-400 text-xs">Last Update</p>
-                        <p class="font-bold text-sm" id="lastUpdateTime">Just now</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Quick Actions -->
-        <div class="flex justify-between">
-            <button onclick="openSnakeGame()" class="text-xs bg-gradient-to-r from-green-900 to-blue-900 hover:opacity-90 px-3 py-2 rounded-lg flex items-center">
-                <i class="fas fa-gamepad mr-2"></i> Play Game
-            </button>
-            <button onclick="toggleAnalyticsPanel()" class="text-xs bg-gray-800 hover:bg-gray-700 px-3 py-2 rounded-lg flex items-center">
-                <i class="fas fa-eye-slash mr-2"></i> Hide Panel
-            </button>
-        </div>
-    </div>
-
     <main class="max-w-7xl mx-auto px-6 py-12">
 
-        <!-- Hero Section with Banner Ad -->
+        <!-- Hero Section with Native Banner Ad -->
         <section id="generate" class="text-center mb-20">
-            <!-- Adsterra Native Banner Ad -->
+            <!-- Native Banner Ad -->
             <div class="max-w-4xl mx-auto mb-8">
                 <div class="ad-label">ADVERTISEMENT</div>
                 <div id="container-00c31db17f30b1c6791955d45af28927"></div>
@@ -468,19 +185,15 @@
                 Turn Your Words Into <br>
                 <span class="gradient-text">Masterpieces</span>
             </h1>
+
             <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12">
                 Get <span class="text-green-400 font-bold">2 FREE images</span>, then watch ads for unlimited creations!
             </p>
 
-            <!-- Adsterra Banner Ad (728x90) -->
+            <!-- Banner Ad 728x90 -->
             <div class="max-w-4xl mx-auto mb-6 text-center">
                 <div class="ad-label">SPONSORED CONTENT</div>
                 <div id="adsterra-banner-728x90"></div>
-                <script type="text/javascript">
-                    if (typeof atOptions != 'undefined') {
-                        document.write('<scr' + 'ipt type="text/javascript" src="https://www.highperformanceformat.com/2f7367823bb737d3e63104c8173b759e/invoke.js"></scr' + 'ipt>');
-                    }
-                </script>
             </div>
 
             <!-- Free Counter -->
@@ -492,7 +205,6 @@
             <!-- Generation Tool -->
             <div class="max-w-4xl mx-auto glass p-3 rounded-2xl shadow-2xl">
                 <div class="flex flex-col md:flex-row gap-4 items-center">
-                    <!-- Image Upload Preview/Button -->
                     <div class="relative group">
                         <input type="file" id="imageUpload" class="hidden" accept="image/*"
                             onchange="handleImageUpload(event)">
@@ -513,7 +225,6 @@
                     <div class="flex-1 w-full flex flex-col md:flex-row gap-2">
                         <input type="text" id="promptInput" placeholder="Describe what you want to create..."
                             class="flex-1 bg-white/5 border border-white/10 rounded-xl focus:border-blue-500/50 px-6 py-4 text-white text-lg placeholder:text-gray-500 outline-none">
-
                         <button id="generateBtn" onclick="checkAndGenerate()"
                             class="gradient-btn px-8 py-4 rounded-xl font-bold flex items-center justify-center space-x-2 whitespace-nowrap">
                             <i class="fas fa-magic"></i>
@@ -522,6 +233,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="flex items-center justify-center space-x-4 mt-4 text-sm">
                 <span class="text-gray-500"><i class="fas fa-gift text-green-400 mr-1"></i> 2 Free images first</span>
                 <span class="text-gray-500">•</span>
@@ -529,13 +241,25 @@
             </div>
         </section>
 
-        <!-- Loading State (Hidden by default) -->
+        <!-- Loading State -->
         <div id="loadingState" class="hidden flex-col items-center justify-center mb-20 space-y-4">
             <div class="loader"></div>
             <p class="text-gray-400 animate-pulse">Dreaming up your vision...</p>
         </div>
 
-        <!-- Ad Modal (Hidden by default) -->
+        <!-- Smartlink Section -->
+        <div class="max-w-4xl mx-auto my-8 text-center">
+            <div class="smartlink-container">
+                <h3 class="text-xl font-bold text-white mb-4">🎁 Special Offer!</h3>
+                <p class="text-white/90 mb-6">Get exclusive deals and premium features</p>
+                <a href="https://www.effectivegatecpm.com/tbk1cwxwjf?key=46c38e3e9d457d3769c23e5be1609eda"
+                    target="_blank" class="smartlink-btn">
+                    Click Here for Special Deals <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Ad Modal -->
         <div id="adModal" class="hidden fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
             <div class="bg-gray-900 rounded-2xl max-w-md w-full p-6">
                 <div class="text-center mb-6">
@@ -543,16 +267,15 @@
                     <p class="text-gray-400">Please watch this ad to generate more images</p>
                 </div>
 
-                <!-- Ad Simulation -->
                 <div class="ad-box mb-6">
-                    <!-- In real implementation, replace this with actual ad code -->
-                    <div
-                        class="w-full h-64 flex flex-col items-center justify-center bg-gradient-to-br from-blue-900 to-purple-900">
-                        <i class="fas fa-ad text-4xl text-white mb-4"></i>
-                        <p class="text-white font-bold text-lg">ADVERTISEMENT</p>
-                        <p class="text-gray-300 text-sm mt-2">Please watch this ad fully</p>
-                        <div class="mt-4 w-48 bg-gray-700 h-2 rounded-full overflow-hidden">
-                            <div id="adProgress" class="bg-blue-500 h-full w-0 transition-all duration-5000"></div>
+                    <div id="adModalContent" class="w-full h-64 flex flex-col items-center justify-center">
+                        <div class="text-center">
+                            <i class="fas fa-ad text-4xl text-white mb-4"></i>
+                            <p class="text-white font-bold text-lg">ADVERTISEMENT</p>
+                            <p class="text-gray-300 text-sm mt-2">Please watch this ad fully</p>
+                            <div class="mt-4 w-48 bg-gray-700 h-2 rounded-full overflow-hidden mx-auto">
+                                <div id="adProgress" class="bg-blue-500 h-full w-0 transition-all duration-5000"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -596,6 +319,12 @@
             </div>
         </div>
 
+        <!-- Middle Banner Ad 468x60 -->
+        <div class="max-w-4xl mx-auto my-12 text-center">
+            <div class="ad-label">ADVERTISEMENT</div>
+            <div id="middle-banner-468x60"></div>
+        </div>
+
         <!-- Gallery Section -->
         <section id="gallery" class="py-10">
             <div class="flex flex-col md:flex-row justify-between items-end mb-12">
@@ -606,7 +335,6 @@
             </div>
 
             <div id="historyGrid" class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <!-- Fallback empty state -->
                 <div class="col-span-full py-20 text-center glass rounded-3xl">
                     <i class="fas fa-images text-4xl text-gray-700 mb-4"></i>
                     <p class="text-gray-500">Your generated images will appear here.</p>
@@ -618,12 +346,6 @@
         <div class="max-w-4xl mx-auto mt-20 text-center">
             <div class="ad-label">ADVERTISEMENT</div>
             <div id="footer-banner-ad"></div>
-            <script type="text/javascript">
-                // Create another banner ad at footer
-                if (typeof atOptions != 'undefined') {
-                    document.write('<scr' + 'ipt type="text/javascript" src="https://www.highperformanceformat.com/2f7367823bb737d3e63104c8173b759e/invoke.js"></scr' + 'ipt>');
-                }
-            </script>
         </div>
 
     </main>
@@ -678,42 +400,6 @@
         </div>
     </footer>
 
-    <!-- Snake Game Button -->
-    <div id="snakeGameBtn" class="fixed bottom-4 right-4 z-50 w-12 h-12 rounded-full gradient-btn flex items-center justify-center cursor-pointer shadow-lg hover:scale-110 transition-transform">
-        <i class="fas fa-gamepad text-white"></i>
-    </div>
-
-    <!-- Snake Game Container -->
-    <div id="snakeGameContainer" class="hidden fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-4">
-        <!-- Statistics Panel -->
-        <div id="statsPanel" class="absolute top-4 left-4 right-4 glass p-4 rounded-xl max-w-md mx-auto">
-            <h3 class="text-lg font-bold mb-2 text-center">📊 Site Statistics</h3>
-            <div class="grid grid-cols-3 gap-4 text-center">
-                <div class="p-2">
-                    <div class="text-2xl font-bold" id="totalUsers">0</div>
-                    <div class="text-xs text-gray-400">Total Users</div>
-                </div>
-                <div class="p-2">
-                    <div class="text-2xl font-bold" id="usagePercent">0%</div>
-                    <div class="text-xs text-gray-400">Today's Usage</div>
-                </div>
-                <div class="p-2">
-                    <div class="text-2xl font-bold" id="activeUsers">0</div>
-                    <div class="text-xs text-gray-400">Active Now</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Snake Game Canvas -->
-        <div class="relative">
-            <canvas id="snakeGame" width="400" height="400" class="border-2 border-white/20 rounded-lg"></canvas>
-            <div class="text-center mt-4">
-                <button onclick="startSnakeGame()" class="gradient-btn px-6 py-2 rounded-lg font-bold mr-2">Start Game</button>
-                <button onclick="closeSnakeGame()" class="px-6 py-2 rounded-lg border border-white/20 hover:bg-white/10">Close</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Notification system -->
     <div id="notification"
         class="fixed bottom-6 right-6 transform translate-y-20 opacity-0 transition-all duration-300 z-[100]">
@@ -723,12 +409,103 @@
         </div>
     </div>
 
-    <!-- Adsterra Native Banner Script -->
-    <script
-      async="async"
-      data-cfasync="false"
-      src="https://pl28256470.effectivegatecpm.com/00c31db17f30b1c6791955d45af28927/invoke.js"
-    ></script>
+    <!-- Banner 728x90 Script -->
+    <script type="text/javascript">
+        atOptions728 = {
+            'key': '2f7367823bb737d3e63104c8173b759e',
+            'format': 'iframe',
+            'height': 90,
+            'width': 728,
+            'params': {}
+        };
+    </script>
+    <script type="text/javascript"
+        src="https://www.highperformanceformat.com/2f7367823bb737d3e63104c8173b759e/invoke.js"></script>
+
+    <!-- Banner 468x60 Script -->
+    <script type="text/javascript">
+        atOptions468 = {
+            'key': 'afd951bdb7e8bca322ee621338fd66ef',
+            'format': 'iframe',
+            'height': 60,
+            'width': 468,
+            'params': {}
+        };
+    </script>
+    <script type="text/javascript"
+        src="https://www.highperformanceformat.com/afd951bdb7e8bca322ee621338fd66ef/invoke.js"></script>
+
+    <script type="text/javascript">
+        // Function to load banner ads
+        function loadBannerAds() {
+            // Load 728x90 banner in hero section
+            const heroBanner = document.getElementById('adsterra-banner-728x90');
+            if (heroBanner && typeof atOptions728 !== 'undefined') {
+                heroBanner.innerHTML = '<scr' + 'ipt type="text/javascript" src="https://www.highperformanceformat.com/2f7367823bb737d3e63104c8173b759e/invoke.js"></scr' + 'ipt>';
+            }
+
+            // Load 468x60 banner in middle section
+            const middleBanner = document.getElementById('middle-banner-468x60');
+            if (middleBanner && typeof atOptions468 !== 'undefined') {
+                middleBanner.innerHTML = '<scr' + 'ipt type="text/javascript" src="https://www.highperformanceformat.com/afd951bdb7e8bca322ee621338fd66ef/invoke.js"></scr' + 'ipt>';
+            }
+
+            // Load 728x90 banner in footer
+            const footerBanner = document.getElementById('footer-banner-ad');
+            if (footerBanner && typeof atOptions728 !== 'undefined') {
+                footerBanner.innerHTML = '<scr' + 'ipt type="text/javascript" src="https://www.highperformanceformat.com/2f7367823bb737d3e63104c8173b759e/invoke.js"></scr' + 'ipt>';
+            }
+
+            console.log('All banner ads loaded successfully');
+        }
+
+        // Popunder trigger function
+        function triggerPopunder() {
+            console.log('Popunder triggered');
+            // The Adsterra popunder script will handle the actual popup
+            // We just need to simulate a user action
+            try {
+                const tempLink = document.createElement('a');
+                tempLink.href = '#';
+                tempLink.style.display = 'none';
+                document.body.appendChild(tempLink);
+                tempLink.click();
+                setTimeout(() => {
+                    document.body.removeChild(tempLink);
+                }, 1000);
+                console.log('Popunder executed successfully');
+            } catch (error) {
+                console.log('Popunder error:', error);
+            }
+        }
+
+        // Load ads when page is ready
+        document.addEventListener('DOMContentLoaded', function () {
+            // Load banner ads
+            setTimeout(loadBannerAds, 1000);
+
+            // Initialize popunder after page load
+            setTimeout(function () {
+                console.log('Popunder ad initialized - ready to trigger');
+                // Trigger popunder on various user interactions
+                const interactions = ['click', 'scroll', 'mousemove', 'keydown'];
+                interactions.forEach(eventType => {
+                    document.addEventListener(eventType, function triggerOnce() {
+                        if (Math.random() > 0.7) { // 30% chance to trigger
+                            triggerPopunder();
+                        }
+                        document.removeEventListener(eventType, triggerOnce);
+                    }, { once: true });
+                });
+            }, 5000);
+
+            // Initialize social bar (loaded in head)
+            console.log('Social bar ad initialized');
+
+            // Initialize native banner (loaded in head with container)
+            console.log('Native banner ad initialized');
+        });
+    </script>
 
     <script>
         // State Management
@@ -736,27 +513,6 @@
         let selectedImageBase64 = null;
         let freeImagesUsed = parseInt(localStorage.getItem('dg_free_images')) || 0;
         const MAX_FREE_IMAGES = 2;
-
-        // Live Analytics Variables
-        let liveChart = null;
-        let analyticsPanelOpen = true;
-        let isResizing = false;
-        let panelWidth = 350;
-        let lastUpdateTimestamp = Date.now();
-
-        // Analytics Data
-        let analyticsData = {
-            totalUsers: 1,
-            totalImages: 8,
-            dailyUsage: {},
-            activeSessions: 5,
-            peakUsage: 16,
-            peakHour: 4,
-            hourlyData: {},
-            userGrowth: [],
-            sessionData: [],
-            activityHistory: []
-        };
 
         // UI Elements
         const promptInput = document.getElementById('promptInput');
@@ -780,706 +536,14 @@
         const uploadPlaceholder = document.getElementById('uploadPlaceholder');
         const removeImageBtn = document.getElementById('removeImageBtn');
 
-        // Snake Game Variables
-        let snakeGame = null;
-        let snakeCtx = null;
-        let snake = null;
-        let food = null;
-        let direction = null;
-        let gameLoop = null;
-        let score = 0;
-
-        // Adsterra SmartLink URL for generate button
-        const SMARTLINK_URL = "https://your-smartlink-url-from-adsterra.com";
-
         // Initial Render
         function init() {
             renderHistory();
             updateFreeCounter();
-            loadAnalyticsData();
-            initializeLiveChart();
-            setupAnalyticsPanel();
-            startLiveUpdates();
-            setupAdsterraAds();
-            
-            // Update every 30 seconds
-            setInterval(() => {
-                updateLiveData();
-            }, 30000);
+
+            // Popunder will be triggered automatically by Adsterra script
+            // and also by our manual triggers
         }
-
-        // Setup Adsterra Ads
-        function setupAdsterraAds() {
-            // Load banner ads dynamically
-            const bannerDiv = document.getElementById('adsterra-banner-728x90');
-            if (bannerDiv && typeof atOptions != 'undefined') {
-                const script = document.createElement('script');
-                script.type = 'text/javascript';
-                script.src = 'https://www.highperformanceformat.com/2f7367823bb737d3e63104c8173b759e/invoke.js';
-                bannerDiv.appendChild(script);
-            }
-
-            // Setup footer banner
-            const footerBannerDiv = document.getElementById('footer-banner-ad');
-            if (footerBannerDiv && typeof atOptions != 'undefined') {
-                const script2 = document.createElement('script');
-                script2.type = 'text/javascript';
-                script2.src = 'https://www.highperformanceformat.com/2f7367823bb737d3e63104c8173b759e/invoke.js';
-                footerBannerDiv.appendChild(script2);
-            }
-
-            // Initialize Social Bar (it loads automatically from head script)
-            console.log('Adsterra Social Bar initialized');
-            
-            // Initialize Popunder (it loads automatically from head script)
-            console.log('Adsterra Popunder initialized');
-            
-            // Initialize Native Banner (it loads automatically from head script)
-            console.log('Adsterra Native Banner initialized');
-        }
-
-        // Setup Analytics Panel
-        function setupAnalyticsPanel() {
-            const toggleBtn = document.getElementById('analyticsToggleBtn');
-            const panel = document.getElementById('analyticsPanel');
-            const resizeHandle = panel.querySelector('.resize-handle');
-            
-            // Toggle button click
-            toggleBtn.addEventListener('click', function() {
-                analyticsPanelOpen = !analyticsPanelOpen;
-                if (analyticsPanelOpen) {
-                    panel.classList.remove('collapsed');
-                    toggleBtn.innerHTML = '<i class="fas fa-chart-line text-white"></i>';
-                    toggleBtn.title = "Close Analytics Panel";
-                } else {
-                    panel.classList.add('collapsed');
-                    toggleBtn.innerHTML = '<i class="fas fa-chart-bar text-white"></i>';
-                    toggleBtn.title = "Open Analytics Panel";
-                }
-            });
-            
-            // Resize functionality
-            resizeHandle.addEventListener('mousedown', function(e) {
-                isResizing = true;
-                document.body.style.cursor = 'ew-resize';
-                e.preventDefault();
-            });
-            
-            document.addEventListener('mousemove', function(e) {
-                if (!isResizing) return;
-                
-                const screenWidth = window.innerWidth;
-                const minWidth = 280;
-                const maxWidth = 500;
-                
-                // Calculate new width
-                let newWidth = screenWidth - e.clientX;
-                newWidth = Math.max(minWidth, Math.min(maxWidth, newWidth));
-                
-                // Apply new width
-                panel.style.width = newWidth + 'px';
-                panelWidth = newWidth;
-            });
-            
-            document.addEventListener('mouseup', function() {
-                if (isResizing) {
-                    isResizing = false;
-                    document.body.style.cursor = '';
-                    savePanelSettings();
-                }
-            });
-            
-            // Load saved panel settings
-            loadPanelSettings();
-            
-            // Mobile responsive
-            window.addEventListener('resize', function() {
-                if (window.innerWidth < 768) {
-                    panel.style.width = '90%';
-                    panel.style.right = '5%';
-                    panel.style.left = '5%';
-                } else {
-                    panel.style.width = panelWidth + 'px';
-                    panel.style.right = '20px';
-                    panel.style.left = 'auto';
-                }
-            });
-        }
-        
-        // Save panel settings
-        function savePanelSettings() {
-            localStorage.setItem('analyticsPanelWidth', panelWidth);
-            localStorage.setItem('analyticsPanelOpen', analyticsPanelOpen);
-        }
-        
-        // Load panel settings
-        function loadPanelSettings() {
-            const savedWidth = localStorage.getItem('analyticsPanelWidth');
-            const savedOpen = localStorage.getItem('analyticsPanelOpen');
-            
-            if (savedWidth) {
-                panelWidth = parseInt(savedWidth);
-                document.getElementById('analyticsPanel').style.width = panelWidth + 'px';
-            }
-            
-            if (savedOpen !== null) {
-                analyticsPanelOpen = savedOpen === 'true';
-                if (!analyticsPanelOpen) {
-                    document.getElementById('analyticsPanel').classList.add('collapsed');
-                    document.getElementById('analyticsToggleBtn').innerHTML = '<i class="fas fa-chart-bar text-white"></i>';
-                }
-            }
-        }
-        
-        // Toggle analytics panel
-        function toggleAnalyticsPanel() {
-            analyticsPanelOpen = !analyticsPanelOpen;
-            const panel = document.getElementById('analyticsPanel');
-            const toggleBtn = document.getElementById('analyticsToggleBtn');
-            
-            if (analyticsPanelOpen) {
-                panel.classList.remove('collapsed');
-                toggleBtn.innerHTML = '<i class="fas fa-chart-line text-white"></i>';
-                showNotification('Analytics panel opened!', 'success');
-            } else {
-                panel.classList.add('collapsed');
-                toggleBtn.innerHTML = '<i class="fas fa-chart-bar text-white"></i>';
-                showNotification('Analytics panel closed!', 'info');
-            }
-            
-            savePanelSettings();
-        }
-
-        // Load Analytics Data
-        function loadAnalyticsData() {
-            const savedData = localStorage.getItem('dreamgen_analytics');
-            if (savedData) {
-                analyticsData = JSON.parse(savedData);
-            } else {
-                // Initialize with sample data
-                analyticsData = {
-                    totalUsers: 1,
-                    totalImages: history.length || 8,
-                    dailyUsage: {
-                        [new Date().toDateString()]: history.length || 5
-                    },
-                    activeSessions: 5,
-                    peakUsage: 16,
-                    peakHour: 4,
-                    hourlyData: generateSampleHourlyData(),
-                    userGrowth: generateSampleUserGrowth(),
-                    sessionData: generateSampleSessionData(),
-                    activityHistory: generateActivityHistory()
-                };
-            }
-            updateLiveDisplay();
-        }
-
-        // Generate sample activity history
-        function generateActivityHistory() {
-            const history = [];
-            const now = Date.now();
-            for (let i = 29; i >= 0; i--) {
-                history.push({
-                    timestamp: now - (i * 24 * 60 * 60 * 1000),
-                    activity: Math.floor(Math.random() * 30) + 50
-                });
-            }
-            return history;
-        }
-
-        // Generate sample hourly data
-        function generateSampleHourlyData() {
-            const data = {};
-            for (let i = 0; i < 24; i++) {
-                data[i] = Math.floor(Math.random() * 20);
-            }
-            data[4] = 16; // Peak at 4:00
-            return data;
-        }
-
-        // Generate sample user growth
-        function generateSampleUserGrowth() {
-            const growth = [];
-            const today = new Date();
-            for (let i = 30; i >= 0; i--) {
-                const date = new Date(today);
-                date.setDate(date.getDate() - i);
-                growth.push({
-                    date: date.toDateString(),
-                    newUsers: i === 0 ? 1 : Math.floor(Math.random() * 3),
-                    totalUsers: Math.max(1, Math.floor(Math.random() * 10))
-                });
-            }
-            return growth;
-        }
-
-        // Generate sample session data
-        function generateSampleSessionData() {
-            const sessions = [];
-            for (let i = 0; i < 5; i++) {
-                const time = new Date();
-                time.setMinutes(time.getMinutes() - i * 10);
-                sessions.push({
-                    startTime: time.toISOString(),
-                    duration: Math.floor(Math.random() * 600) + 60
-                });
-            }
-            return sessions;
-        }
-
-        // Update Live Display
-        function updateLiveDisplay() {
-            const today = new Date().toDateString();
-            const yesterday = new Date(Date.now() - 86400000).toDateString();
-            
-            // Update stats
-            document.getElementById('liveTotalUsers').textContent = analyticsData.totalUsers;
-            document.getElementById('liveTotalImages').textContent = history.length || analyticsData.totalImages;
-            document.getElementById('liveActiveSessions').textContent = analyticsData.activeSessions;
-            document.getElementById('livePeakUsage').textContent = analyticsData.peakUsage;
-            
-            // Update today's stats
-            const newUsersToday = analyticsData.userGrowth.filter(u => u.date === today)
-                .reduce((sum, u) => sum + u.newUsers, 0);
-            document.getElementById('liveNewUsers').textContent = `+${newUsersToday} today`;
-            
-            const imagesToday = analyticsData.dailyUsage[today] || 0;
-            document.getElementById('liveImagesToday').textContent = `+${imagesToday} today`;
-            
-            // Update peak time
-            if (analyticsData.peakHour !== null) {
-                document.getElementById('livePeakTime').textContent = `Hour: ${analyticsData.peakHour}:00`;
-            }
-            
-            // Update activity level
-            const activityLevel = Math.min(analyticsData.activeSessions / 10 * 100, 100);
-            document.getElementById('liveActivityBar').style.width = `${activityLevel}%`;
-            document.getElementById('liveActivityLevel').textContent = `${Math.round(activityLevel)}%`;
-            
-            // Update last update time
-            updateLastUpdateTime();
-        }
-
-        // Update last update time
-        function updateLastUpdateTime() {
-            const now = Date.now();
-            const diff = Math.floor((now - lastUpdateTimestamp) / 1000);
-            
-            let timeText = '';
-            if (diff < 60) {
-                timeText = 'Just now';
-            } else if (diff < 3600) {
-                const mins = Math.floor(diff / 60);
-                timeText = `${mins} min ago`;
-            } else if (diff < 86400) {
-                const hours = Math.floor(diff / 3600);
-                timeText = `${hours} hour${hours > 1 ? 's' : ''} ago`;
-            } else {
-                const days = Math.floor(diff / 86400);
-                timeText = `${days} day${days > 1 ? 's' : ''} ago`;
-            }
-            
-            document.getElementById('lastUpdateTime').textContent = timeText;
-        }
-
-        // Update Live Data
-        function updateLiveData() {
-            // Simulate real-time updates
-            const hour = new Date().getHours();
-            
-            // Update hourly data
-            if (!analyticsData.hourlyData[hour]) {
-                analyticsData.hourlyData[hour] = 0;
-            }
-            analyticsData.hourlyData[hour] += Math.floor(Math.random() * 3);
-            
-            // Update active sessions
-            analyticsData.activeSessions = Math.max(1, 
-                Math.floor(analyticsData.activeSessions + (Math.random() - 0.5) * 2)
-            );
-            
-            // Update daily usage
-            const today = new Date().toDateString();
-            analyticsData.dailyUsage[today] = (analyticsData.dailyUsage[today] || 0) + Math.floor(Math.random());
-            
-            // Update peak usage if needed
-            if (analyticsData.hourlyData[hour] > analyticsData.peakUsage) {
-                analyticsData.peakUsage = analyticsData.hourlyData[hour];
-                analyticsData.peakHour = hour;
-            }
-            
-            // Save data
-            localStorage.setItem('dreamgen_analytics', JSON.stringify(analyticsData));
-            
-            // Update display
-            updateLiveDisplay();
-            updateLiveChart();
-            
-            lastUpdateTimestamp = Date.now();
-        }
-
-        // Initialize Live Chart
-        function initializeLiveChart() {
-            const ctx = document.getElementById('liveChart').getContext('2d');
-            
-            // Generate labels for last 30 days
-            const labels = [];
-            for (let i = 29; i >= 0; i--) {
-                const date = new Date();
-                date.setDate(date.getDate() - i);
-                if (i % 5 === 0 || i === 29 || i === 0) {
-                    labels.push(date.getDate() + '/' + (date.getMonth() + 1));
-                } else {
-                    labels.push('');
-                }
-            }
-            
-            // Generate initial data
-            const usersData = generateChartData(30, 1, 0.1, 50);
-            const imagesData = generateChartData(30, 8, 0.3, 30);
-            const activeData = generateChartData(30, 5, 0.5, 20);
-            
-            liveChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: 'Users',
-                            data: usersData,
-                            borderColor: '#3b82f6',
-                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                            borderWidth: 2,
-                            tension: 0.4,
-                            fill: true,
-                            pointRadius: 0,
-                            pointHoverRadius: 3
-                        },
-                        {
-                            label: 'Images',
-                            data: imagesData,
-                            borderColor: '#8b5cf6',
-                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
-                            borderWidth: 2,
-                            tension: 0.4,
-                            fill: true,
-                            pointRadius: 0,
-                            pointHoverRadius: 3
-                        },
-                        {
-                            label: 'Active',
-                            data: activeData,
-                            borderColor: '#10b981',
-                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                            borderWidth: 2,
-                            tension: 0.4,
-                            fill: true,
-                            pointRadius: 0,
-                            pointHoverRadius: 3
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false,
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                            titleColor: '#fff',
-                            bodyColor: '#fff',
-                            borderColor: '#3b82f6',
-                            borderWidth: 1,
-                            cornerRadius: 6,
-                            padding: 8,
-                            displayColors: true,
-                            callbacks: {
-                                label: function(context) {
-                                    return `${context.dataset.label}: ${context.parsed.y}`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                color: '#9ca3af',
-                                font: {
-                                    size: 9
-                                },
-                                maxTicksLimit: 6
-                            }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.05)'
-                            },
-                            ticks: {
-                                color: '#9ca3af',
-                                font: {
-                                    size: 9
-                                },
-                                maxTicksLimit: 5
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Generate chart data
-        function generateChartData(days, baseValue, volatility, maxValue) {
-            const data = [];
-            let currentValue = baseValue;
-            
-            for (let i = 0; i < days; i++) {
-                const change = (Math.random() - 0.5) * 2 * volatility * currentValue;
-                currentValue = Math.max(1, Math.min(maxValue || 100, currentValue + change));
-                data.push(Math.round(currentValue));
-            }
-            
-            return data;
-        }
-
-        // Update Live Chart
-        function updateLiveChart() {
-            const timeRange = parseInt(document.getElementById('liveTimeRange').value);
-            
-            // Generate labels
-            const labels = [];
-            const tickInterval = Math.max(1, Math.floor(timeRange / 6));
-            
-            for (let i = timeRange - 1; i >= 0; i--) {
-                const date = new Date();
-                date.setDate(date.getDate() - i);
-                if (i % tickInterval === 0 || i === timeRange - 1 || i === 0) {
-                    if (timeRange <= 30) {
-                        labels.push(date.getDate() + '/' + (date.getMonth() + 1));
-                    } else {
-                        labels.push((date.getMonth() + 1) + '/' + date.getDate());
-                    }
-                } else {
-                    labels.push('');
-                }
-            }
-            
-            // Update chart
-            liveChart.data.labels = labels;
-            
-            // Update datasets with new data
-            const maxVal = timeRange <= 30 ? 50 : 100;
-            liveChart.data.datasets[0].data = generateChartData(timeRange, analyticsData.totalUsers, 0.1, maxVal);
-            liveChart.data.datasets[1].data = generateChartData(timeRange, history.length || analyticsData.totalImages, 0.3, maxVal);
-            liveChart.data.datasets[2].data = generateChartData(timeRange, analyticsData.activeSessions, 0.5, maxVal);
-            
-            liveChart.update('none');
-        }
-
-        // Refresh Live Analytics
-        function refreshLiveAnalytics() {
-            updateLiveData();
-            showNotification('Live analytics refreshed!', 'success');
-        }
-
-        // Start Live Updates
-        function startLiveUpdates() {
-            // Initial update
-            updateLiveData();
-            
-            // Update every 30 seconds
-            setInterval(() => {
-                if (analyticsPanelOpen) {
-                    updateLiveData();
-                }
-            }, 30000);
-        }
-
-        // Check and Generate with SmartLink integration
-        function checkAndGenerate() {
-            const prompt = promptInput.value.trim();
-
-            if (!prompt) {
-                showNotification('Please enter a prompt first!', 'error');
-                return;
-            }
-
-            // Check if user has free images left
-            if (freeImagesUsed < MAX_FREE_IMAGES) {
-                // Use free image
-                freeImagesUsed++;
-                localStorage.setItem('dg_free_images', freeImagesUsed);
-                updateFreeCounter();
-                generateImage(prompt);
-                showNotification(`Free image used! ${MAX_FREE_IMAGES - freeImagesUsed} free images remaining.`, 'success');
-            } else {
-                // Show ad modal or redirect to SmartLink
-                const useSmartLink = Math.random() > 0.5; // 50% chance to show SmartLink
-                
-                if (useSmartLink && SMARTLINK_URL) {
-                    // Open SmartLink in new tab
-                    window.open(SMARTLINK_URL, '_blank');
-                    showNotification('Please complete the ad to generate image!', 'info');
-                    
-                    // Generate image after a delay
-                    setTimeout(() => {
-                        generateImage(prompt);
-                    }, 3000);
-                } else {
-                    // Show traditional ad modal
-                    showAdModal();
-                }
-            }
-        }
-
-        // Snake Game Functions
-        function openSnakeGame() {
-            document.getElementById('snakeGameContainer').classList.remove('hidden');
-            updateStatsDisplay();
-            initSnakeGame();
-        }
-
-        function closeSnakeGame() {
-            document.getElementById('snakeGameContainer').classList.add('hidden');
-            if (gameLoop) {
-                clearInterval(gameLoop);
-            }
-        }
-
-        function initSnakeGame() {
-            const canvas = document.getElementById('snakeGame');
-            snakeCtx = canvas.getContext('2d');
-            
-            snake = [
-                {x: 10, y: 10},
-                {x: 9, y: 10},
-                {x: 8, y: 10}
-            ];
-            
-            food = {
-                x: Math.floor(Math.random() * 20),
-                y: Math.floor(Math.random() * 20)
-            };
-            
-            direction = 'right';
-            score = 0;
-            
-            drawSnakeGame();
-        }
-
-        function startSnakeGame() {
-            if (gameLoop) clearInterval(gameLoop);
-            
-            document.addEventListener('keydown', (e) => {
-                switch(e.key) {
-                    case 'ArrowUp': if (direction !== 'down') direction = 'up'; break;
-                    case 'ArrowDown': if (direction !== 'up') direction = 'down'; break;
-                    case 'ArrowLeft': if (direction !== 'right') direction = 'left'; break;
-                    case 'ArrowRight': if (direction !== 'left') direction = 'right'; break;
-                }
-            });
-            
-            gameLoop = setInterval(() => {
-                moveSnake();
-                checkCollision();
-                checkFood();
-                drawSnakeGame();
-            }, 150);
-        }
-
-        function moveSnake() {
-            const head = {...snake[0]};
-            
-            switch(direction) {
-                case 'up': head.y--; break;
-                case 'down': head.y++; break;
-                case 'left': head.x--; break;
-                case 'right': head.x++; break;
-            }
-            
-            snake.unshift(head);
-            snake.pop();
-        }
-
-        function checkCollision() {
-            const head = snake[0];
-            
-            if (head.x < 0 || head.x >= 20 || head.y < 0 || head.y >= 20) {
-                gameOver();
-            }
-            
-            for (let i = 1; i < snake.length; i++) {
-                if (head.x === snake[i].x && head.y === snake[i].y) {
-                    gameOver();
-                }
-            }
-        }
-
-        function checkFood() {
-            const head = snake[0];
-            
-            if (head.x === food.x && head.y === food.y) {
-                snake.push({...snake[snake.length - 1]});
-                
-                food = {
-                    x: Math.floor(Math.random() * 20),
-                    y: Math.floor(Math.random() * 20)
-                };
-                
-                score += 10;
-            }
-        }
-
-        function drawSnakeGame() {
-            snakeCtx.fillStyle = '#0f172a';
-            snakeCtx.fillRect(0, 0, 400, 400);
-            
-            snakeCtx.strokeStyle = '#1e293b';
-            for (let i = 0; i <= 20; i++) {
-                snakeCtx.beginPath();
-                snakeCtx.moveTo(i * 20, 0);
-                snakeCtx.lineTo(i * 20, 400);
-                snakeCtx.stroke();
-                
-                snakeCtx.beginPath();
-                snakeCtx.moveTo(0, i * 20);
-                snakeCtx.lineTo(400, i * 20);
-                snakeCtx.stroke();
-            }
-            
-            snake.forEach((segment, index) => {
-                snakeCtx.fillStyle = index === 0 ? '#10b981' : '#34d399';
-                snakeCtx.fillRect(segment.x * 20, segment.y * 20, 18, 18);
-            });
-            
-            snakeCtx.fillStyle = '#ef4444';
-            snakeCtx.beginPath();
-            snakeCtx.arc(food.x * 20 + 10, food.y * 20 + 10, 8, 0, Math.PI * 2);
-            snakeCtx.fill();
-            
-            snakeCtx.fillStyle = 'white';
-            snakeCtx.font = '16px monospace';
-            snakeCtx.fillText(`Score: ${score}`, 10, 20);
-        }
-
-        function gameOver() {
-            clearInterval(gameLoop);
-            alert(`Game Over! Your score: ${score}`);
-            initSnakeGame();
-        }
-
-        // Snake Game Event Listener
-        document.getElementById('snakeGameBtn').addEventListener('click', openSnakeGame);
 
         function updateFreeCounter() {
             const freeLeft = MAX_FREE_IMAGES - freeImagesUsed;
@@ -1526,19 +590,50 @@
             notifyIcon.className = type === 'error' ? 'fas fa-exclamation-circle text-red-500' :
                 type === 'success' ? 'fas fa-check-circle text-green-500' :
                     'fas fa-info-circle text-blue-500';
-            notification.parentElement.querySelector('#notification').classList.replace('translate-y-20', 'translate-y-0');
-            notification.parentElement.querySelector('#notification').classList.replace('opacity-0', 'opacity-100');
+
+            notification.style.transform = 'translateY(0)';
+            notification.style.opacity = '1';
 
             setTimeout(() => {
-                notification.parentElement.querySelector('#notification').classList.replace('translate-y-0', 'translate-y-20');
-                notification.parentElement.querySelector('#notification').classList.replace('opacity-100', 'opacity-0');
+                notification.style.transform = 'translateY(20px)';
+                notification.style.opacity = '0';
             }, 3000);
+        }
+
+        function checkAndGenerate() {
+            const prompt = promptInput.value.trim();
+
+            if (!prompt) {
+                showNotification('Please enter a prompt first!', 'error');
+                return;
+            }
+
+            // Check if user has free images left
+            if (freeImagesUsed < MAX_FREE_IMAGES) {
+                // Use free image
+                freeImagesUsed++;
+                localStorage.setItem('dg_free_images', freeImagesUsed);
+                updateFreeCounter();
+                generateImage(prompt);
+                showNotification(`Free image used! ${MAX_FREE_IMAGES - freeImagesUsed} free images remaining.`, 'success');
+
+                // Trigger popunder after free image usage
+                setTimeout(() => {
+                    if (Math.random() > 0.5) {
+                        triggerPopunder();
+                    }
+                }, 2000);
+            } else {
+                // Show ad modal
+                showAdModal();
+            }
         }
 
         function showAdModal() {
             adModal.classList.remove('hidden');
             adProgress.style.width = '0%';
 
+            // Simulate ad progress
             let progress = 0;
             const interval = setInterval(() => {
                 progress += 1;
@@ -1553,6 +648,12 @@
             adModal.classList.add('hidden');
             const prompt = promptInput.value.trim();
             showNotification('Thank you for watching the ad! Generating your image...', 'success');
+
+            // Trigger popunder after ad completion
+            setTimeout(() => {
+                triggerPopunder();
+            }, 1000);
+
             setTimeout(() => {
                 generateImage(prompt);
             }, 500);
@@ -1564,46 +665,52 @@
         }
 
         async function generateImage(prompt) {
+            // UI feedback
             generateBtn.disabled = true;
             generateBtn.classList.add('opacity-50');
             loadingState.classList.remove('hidden');
             resultContainer.classList.add('hidden');
 
             try {
+                // Enhance prompt if image is uploaded
                 let enhancedPrompt = prompt;
                 if (selectedImageBase64) {
                     enhancedPrompt += " (based on provided visual reference style)";
                 }
 
+                // Call AI Image API
                 const seed = Math.floor(Math.random() * 1000000);
                 const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(enhancedPrompt)}?seed=${seed}&width=1024&height=1024&nologo=true`;
 
+                // Prefetch image
                 const img = new Image();
                 img.src = imageUrl;
                 await img.decode();
 
+                // Display result
                 resultImage.src = imageUrl;
                 resultPrompt.innerText = prompt + (selectedImageBase64 ? " (Image Referenced)" : "");
                 resultContainer.classList.remove('hidden');
 
+                // Add to history
                 history.unshift({ prompt: resultPrompt.innerText, url: imageUrl, date: new Date().toISOString() });
                 if (history.length > 8) history.pop();
                 localStorage.setItem('dg_history', JSON.stringify(history));
-                
-                analyticsData.totalImages = history.length;
-                const today = new Date().toDateString();
-                analyticsData.dailyUsage[today] = (analyticsData.dailyUsage[today] || 0) + 1;
-                localStorage.setItem('dreamgen_analytics', JSON.stringify(analyticsData));
-                updateLiveDisplay();
-                updateLiveChart();
-                
                 renderHistory();
 
                 showNotification('Image generated successfully!', 'success');
 
+                // Clear reference image
                 if (selectedImageBase64) {
                     removeImage({ preventDefault: () => { }, stopPropagation: () => { } });
                 }
+
+                // Trigger popunder after successful generation
+                setTimeout(() => {
+                    if (Math.random() > 0.3) {
+                        triggerPopunder();
+                    }
+                }, 3000);
 
             } catch (error) {
                 showNotification('Generation failed. Please try again.', 'error');
@@ -1656,27 +763,6 @@
             } else {
                 showNotification('Sharing not supported on this browser.', 'info');
             }
-        }
-
-        function updateStatsDisplay() {
-            const today = new Date().toDateString();
-            const yesterday = new Date(Date.now() - 86400000).toDateString();
-            
-            // Calculate percentage change
-            const todayUsage = analyticsData.dailyUsage[today] || 0;
-            const yesterdayUsage = analyticsData.dailyUsage[yesterday] || 0;
-            let percentChange = 0;
-            
-            if (yesterdayUsage > 0) {
-                percentChange = Math.round(((todayUsage - yesterdayUsage) / yesterdayUsage) * 100);
-            } else if (todayUsage > 0) {
-                percentChange = 100;
-            }
-            
-            // Update display
-            document.getElementById('totalUsers').textContent = analyticsData.totalUsers;
-            document.getElementById('usagePercent').textContent = `${percentChange > 0 ? '+' : ''}${percentChange}%`;
-            document.getElementById('activeUsers').textContent = analyticsData.activeSessions;
         }
 
         // Run Init
