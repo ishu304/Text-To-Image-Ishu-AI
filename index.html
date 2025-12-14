@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DreamGen AI | Free Text-to-Image</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #030712;
+            color: #f3f4f6;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            transition: all 0.3s ease;
+        }
+
+        .gradient-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4);
+        }
+
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        .loader {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #030712;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #374151;
+        }
+
+        /* Ad Container */
+        .ad-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .ad-label {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .ad-box {
+            min-height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .ad-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .ad-text {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .free-counter {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 10px;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .free-counter p {
+            color: #22c55e;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .free-counter .counter {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Snake Game Styles */
+        #snakeGameContainer {
+            font-family: 'Courier New', monospace;
+        }
+
+        #statsPanel {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 10px 0;
+        }
+
+        /* Fixed Analytics Panel */
+        .fixed-analytics-panel {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            width: 350px;
+            z-index: 40;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 1400px) {
+            .fixed-analytics-panel {
+                width: 320px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .fixed-analytics-panel {
+                display: none;
+            }
+        }
+
+        /* Live Pulse Animation */
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .live-pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Graph Controls */
+        .graph-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+        }
+
+        /* Graph Toggle Button */
+        #graphToggleBtn {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 50;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        #graphToggleBtn:hover {
+            transform: scale(1.1);
+        }
+
+        @media (min-width: 1200px) {
+            #graphToggleBtn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+
+    <!-- Header -->
+    <nav class="sticky top-0 z-50 glass border-b border-white/5 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div
+                    class="w-10 h-10 bg-gradient-to-tr from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-wand-magic-sparkles text-white text-xl"></i>
+                </div>
+                <span class="text-2xl font-extrabold tracking-tight">Dream<span class="gradient-text">Gen</span></span>
+            </div>
+
+            <div class="flex items-center space-x-6">
+                <div class="hidden md:flex space-x-6 text-sm font-medium text-gray-400">
+                    <a href="#generate" class="hover:text-white transition">Generate</a>
+                    <a href="#gallery" class="hover:text-white transition">Gallery</a>
+                </div>
+                <div class="flex items-center bg-gray-900/50 px-4 py-2 rounded-full border border-white/10">
+                    <i class="fas fa-gift text-green-400 mr-2"></i>
+                    <span id="freeImagesLeft" class="font-bold text-white">2</span>
+                    <span class="ml-1 text-xs text-gray-400">Free Left</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Graph Toggle Button (Mobile) -->
+    <div id="graphToggleBtn" class="hidden">
+        <i class="fas fa-chart-line text-white"></i>
+    </div>
+
+    <!-- Fixed Analytics Panel -->
+    <div id="fixedAnalyticsPanel" class="fixed-analytics-panel glass rounded-xl p-4 shadow-2xl">
+        <div class="flex justify-between items-center mb-3">
+            <div>
+                <h3 class="font-bold text-sm">📈 Live Analytics</h3>
+                <div class="flex items-center">
+                    <span class="text-green-500 text-xs font-bold live-pulse mr-1">●</span>
+                    <span class="text-gray-400 text-xs">Live</span>
+                </div>
+            </div>
+            <button onclick="toggleAnalyticsPanel()" class="text-gray-400 hover:text-white transition">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Stats Summary -->
+        <div class="grid grid-cols-2 gap-2 mb-3">
+            <div class="bg-white/5 p-2 rounded-lg">
+                <p class="text-gray-400 text-xs">Total Users</p>
+                <p class="font-bold" id="fixedTotalUsers">0</p>
+                <p class="text-green-400 text-xs" id="fixedNewUsers">+0 today</p>
+            </div>
+            <div class="bg-white/5 p-2 rounded-lg">
+                <p class="text-gray-400 text-xs">Total Images</p>
+                <p class="font-bold" id="fixedTotalImages">0</p>
+                <p class="text-purple-400 text-xs" id="fixedImagesToday">+0 today</p>
+            </div>
+            <div class="bg-white/5 p-2 rounded-lg">
+                <p class="text-gray-400 text-xs">Active Now</p>
+                <p class="font-bold" id="fixedActiveSessions">0</p>
+                <p class="text-blue-400 text-xs">Last 30 min</p>
+            </div>
+            <div class="bg-white/5 p-2 rounded-lg">
+                <p class="text-gray-400 text-xs">Peak Usage</p>
+                <p class="font-bold" id="fixedPeakUsage">0</p>
+                <p class="text-red-400 text-xs" id="fixedPeakTime">No data</p>
+            </div>
+        </div>
+
+        <!-- Main Graph -->
+        <div class="mb-3">
+            <div class="flex justify-between items-center mb-2">
+                <h4 class="font-bold text-sm">Usage Trends</h4>
+                <select id="fixedTimeRange" onchange="updateFixedChart()"
+                    class="bg-gray-900 text-white text-xs px-2 py-1 rounded">
+                    <option value="7">7D</option>
+                    <option value="30" selected>30D</option>
+                    <option value="90">90D</option>
+                </select>
+            </div>
+            <div class="relative" style="height: 200px;">
+                <canvas id="fixedChart"></canvas>
+            </div>
+            <div class="grid grid-cols-4 gap-1 mt-2 text-center text-[10px] text-gray-400">
+                <div><span class="inline-block w-2 h-2 bg-blue-500 rounded-full mr-1"></span> Users</div>
+                <div><span class="inline-block w-2 h-2 bg-purple-500 rounded-full mr-1"></span> Images</div>
+                <div><span class="inline-block w-2 h-2 bg-green-500 rounded-full mr-1"></span> Active</div>
+                <div><span class="inline-block w-2 h-2 bg-red-500 rounded-full mr-1"></span> Peak</div>
+            </div>
+        </div>
+
+        <!-- Real-time Activity -->
+        <div>
+            <h4 class="font-bold text-sm mb-2">Real-time Activity</h4>
+            <div class="space-y-2">
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span class="text-gray-400">Current Activity</span>
+                        <span class="font-bold" id="fixedActivityLevel">0%</span>
+                    </div>
+                    <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden">
+                        <div id="fixedActivityBar" class="h-full bg-gradient-to-r from-blue-500 to-purple-600"
+                            style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="flex justify-between text-xs">
+                    <div>
+                        <p class="text-gray-400">Updates every:</p>
+                        <p class="font-bold">30 sec</p>
+                    </div>
+                    <button onclick="refreshAnalytics()" class="text-blue-400 hover:text-blue-300">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-6 py-12">
+
+        <!-- Hero Section -->
+        <section id="generate" class="text-center mb-20">
+            <h1 class="text-5xl md:text-7xl font-black mb-6 tracking-tight">
+                Turn Your Words Into <br>
+                <span class="gradient-text">Masterpieces</span>
+            </h1>
+            <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-12">
+                Get <span class="text-green-400 font-bold">2 FREE images</span>, then watch ads for unlimited creations!
+            </p>
+
+            <!-- Free Counter -->
+            <div id="freeCounter" class="free-counter max-w-4xl mx-auto mb-6">
+                <p><i class="fas fa-gift mr-2"></i> <span class="counter" id="freeCount">2</span> free images remaining
+                </p>
+            </div>
+
+            <!-- Generation Tool -->
+            <div class="max-w-4xl mx-auto glass p-3 rounded-2xl shadow-2xl">
+                <div class="flex flex-col md:flex-row gap-4 items-center">
+                    <!-- Image Upload Preview/Button -->
+                    <div class="relative group">
+                        <input type="file" id="imageUpload" class="hidden" accept="image/*"
+                            onchange="handleImageUpload(event)">
+                        <label for="imageUpload"
+                            class="w-16 h-16 md:w-20 md:h-20 bg-white/5 border-2 border-dashed border-white/20 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-blue-500/50 transition-all overflow-hidden relative">
+                            <div id="uploadPlaceholder" class="flex flex-col items-center">
+                                <i class="fas fa-image text-gray-400"></i>
+                                <span class="text-[10px] text-gray-500 mt-1">Ref.</span>
+                            </div>
+                            <img id="imagePreview" class="hidden absolute inset-0 w-full h-full object-cover">
+                            <button id="removeImageBtn" onclick="removeImage(event)"
+                                class="hidden absolute top-0 right-0 bg-red-500 text-white p-1 text-[10px] rounded-bl-lg z-10">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </label>
+                    </div>
+
+                    <div class="flex-1 w-full flex flex-col md:flex-row gap-2">
+                        <input type="text" id="promptInput" placeholder="Describe what you want to create..."
+                            class="flex-1 bg-white/5 border border-white/10 rounded-xl focus:border-blue-500/50 px-6 py-4 text-white text-lg placeholder:text-gray-500 outline-none">
+
+                        <button id="generateBtn" onclick="checkAndGenerate()"
+                            class="gradient-btn px-8 py-4 rounded-xl font-bold flex items-center justify-center space-x-2 whitespace-nowrap">
+                            <i class="fas fa-magic"></i>
+                            <span id="generateBtnText">Generate Free</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center justify-center space-x-4 mt-4 text-sm">
+                <span class="text-gray-500"><i class="fas fa-gift text-green-400 mr-1"></i> 2 Free images first</span>
+                <span class="text-gray-500">•</span>
+                <span class="text-gray-500"><i class="fas fa-ad text-blue-400 mr-1"></i> Then watch ads</span>
+            </div>
+        </section>
+
+        <!-- Loading State (Hidden by default) -->
+        <div id="loadingState" class="hidden flex-col items-center justify-center mb-20 space-y-4">
+            <div class="loader"></div>
+            <p class="text-gray-400 animate-pulse">Dreaming up your vision...</p>
+        </div>
+
+        <!-- Ad Modal (Hidden by default) -->
+        <div id="adModal" class="hidden fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+            <div class="bg-gray-900 rounded-2xl max-w-md w-full p-6">
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl font-bold mb-2">Watch Ad to Continue</h3>
+                    <p class="text-gray-400">Please watch this ad to generate more images</p>
+                </div>
+
+                <!-- Ad Simulation -->
+                <div class="ad-box mb-6">
+                    <!-- In real implementation, replace this with actual ad code -->
+                    <div
+                        class="w-full h-64 flex flex-col items-center justify-center bg-gradient-to-br from-blue-900 to-purple-900">
+                        <i class="fas fa-ad text-4xl text-white mb-4"></i>
+                        <p class="text-white font-bold text-lg">ADVERTISEMENT</p>
+                        <p class="text-gray-300 text-sm mt-2">Please watch this ad fully</p>
+                        <div class="mt-4 w-48 bg-gray-700 h-2 rounded-full overflow-hidden">
+                            <div id="adProgress" class="bg-blue-500 h-full w-0 transition-all duration-5000"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-3">
+                    <button onclick="skipAd()"
+                        class="flex-1 py-3 rounded-xl border border-gray-700 hover:bg-gray-800 font-bold transition">
+                        Skip Ad
+                    </button>
+                    <button onclick="watchAdComplete()" class="flex-1 py-3 rounded-xl gradient-btn font-bold">
+                        Watch Ad (5s)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Result Container -->
+        <div id="resultContainer" class="hidden mb-20">
+            <div class="max-w-2xl mx-auto glass rounded-3xl overflow-hidden p-3 group">
+                <div class="relative overflow-hidden rounded-2xl aspect-square">
+                    <img id="resultImage" src="" alt="Generated AI Art"
+                        class="w-full h-full object-cover transition duration-700">
+                    <div
+                        class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center space-x-4">
+                        <button onclick="downloadImage()"
+                            class="p-4 bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-md transition">
+                            <i class="fas fa-download text-xl"></i>
+                        </button>
+                        <button onclick="shareImage()"
+                            class="p-4 bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-md transition">
+                            <i class="fas fa-share-nodes text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 id="resultPrompt" class="text-lg font-medium text-gray-300 italic mb-2"></h3>
+                    <div class="flex items-center text-xs text-gray-500">
+                        <i class="far fa-clock mr-1"></i> Just now • HD Resolution
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="py-10">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                <div>
+                    <h2 class="text-4xl font-bold mb-4">Recent <span class="gradient-text">Creations</span></h2>
+                    <p class="text-gray-400">Explore what you've built recently.</p>
+                </div>
+            </div>
+
+            <div id="historyGrid" class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Fallback empty state -->
+                <div class="col-span-full py-20 text-center glass rounded-3xl">
+                    <i class="fas fa-images text-4xl text-gray-700 mb-4"></i>
+                    <p class="text-gray-500">Your generated images will appear here.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 bg-black/50 py-12 px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div class="col-span-1 md:col-span-2">
+                <div class="flex items-center space-x-2 mb-6">
+                    <div
+                        class="w-8 h-8 bg-gradient-to-tr from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-wand-magic-sparkles text-white text-sm"></i>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight">DreamGen</span>
+                </div>
+                <p class="text-gray-500 max-w-sm mb-6">
+                    Create amazing AI images with 2 free generations, then watch ads for unlimited creations.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#"
+                        class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-white/10 transition"><i
+                            class="fab fa-twitter"></i></a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-white/10 transition"><i
+                            class="fab fa-discord"></i></a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-white/10 transition"><i
+                            class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6">Product</h4>
+                <ul class="space-y-4 text-gray-500 text-sm">
+                    <li><a href="#" class="hover:text-white transition">Features</a></li>
+                    <li><a href="#" class="hover:text-white transition">How it Works</a></li>
+                    <li><a href="#" class="hover:text-white transition">Showcase</a></li>
+                    <li><a href="#" class="hover:text-white transition">Templates</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6">Support</h4>
+                <ul class="space-y-4 text-gray-500 text-sm">
+                    <li><a href="#" class="hover:text-white transition">Documentation</a></li>
+                    <li><a href="#" class="hover:text-white transition">Help Center</a></li>
+                    <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
+                    <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-white/5 text-center text-sm text-gray-600">
+            &copy; 2023 DreamGen AI. Free images with ad support.
+        </div>
+    </footer>
+
+    <!-- Snake Game Button -->
+    <div id="snakeGameBtn"
+        class="fixed bottom-4 right-4 z-50 w-12 h-12 rounded-full gradient-btn flex items-center justify-center cursor-pointer shadow-lg hover:scale-110 transition-transform">
+        <i class="fas fa-gamepad text-white"></i>
+    </div>
+
+    <!-- Snake Game Container -->
+    <div id="snakeGameContainer" class="hidden fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-4">
+        <!-- Statistics Panel -->
+        <div id="statsPanel" class="absolute top-4 left-4 right-4 glass p-4 rounded-xl max-w-md mx-auto">
+            <h3 class="text-lg font-bold mb-2 text-center">📊 Site Statistics</h3>
+            <div class="grid grid-cols-3 gap-4 text-center">
+                <div class="p-2">
+                    <div class="text-2xl font-bold" id="totalUsers">0</div>
+                    <div class="text-xs text-gray-400">Total Users</div>
+                </div>
+                <div class="p-2">
+                    <div class="text-2xl font-bold" id="usagePercent">0%</div>
+                    <div class="text-xs text-gray-400">Today's Usage</div>
+                </div>
+                <div class="p-2">
+                    <div class="text-2xl font-bold" id="activeUsers">0</div>
+                    <div class="text-xs text-gray-400">Active Now</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Snake Game Canvas -->
+        <div class="relative">
+            <canvas id="snakeGame" width="400" height="400" class="border-2 border-white/20 rounded-lg"></canvas>
+            <div class="text-center mt-4">
+                <button onclick="startSnakeGame()" class="gradient-btn px-6 py-2 rounded-lg font-bold mr-2">Start
+                    Game</button>
+                <button onclick="closeSnakeGame()"
+                    class="px-6 py-2 rounded-lg border border-white/20 hover:bg-white/10">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification system -->
+    <div id="notification"
+        class="fixed bottom-6 right-6 transform translate-y-20 opacity-0 transition-all duration-300 z-[100]">
+        <div class="glass border-l-4 border-blue-500 px-6 py-4 rounded-xl shadow-2xl flex items-center space-x-3">
+            <i id="notifyIcon" class="fas fa-info-circle text-blue-500"></i>
+            <span id="notifyText" class="font-medium"></span>
+        </div>
+    </div>
+
+    <script>
+        // State Management
+        let history = JSON.parse(localStorage.getItem('dg_history')) || [];
+        let selectedImageBase64 = null;
+        let freeImagesUsed = parseInt(localStorage.getItem('dg_free_images')) || 0;
+        const MAX_FREE_IMAGES = 2;
+
+        // Chart Instance
+        let fixedChart = null;
+        let analyticsPanelVisible = true;
+
+        // Analytics Data
+        let analyticsData = {
+            totalUsers: 1,
+            totalImages: 8,
+            dailyUsage: {},
+            activeSessions: 5,
+            peakUsage: 16,
+            peakHour: 4,
+            hourlyData: {},
+            userGrowth: [],
+            sessionData: []
+        };
+
+        // UI Elements
+        const promptInput = document.getElementById('promptInput');
+        const generateBtn = document.getElementById('generateBtn');
+        const generateBtnText = document.getElementById('generateBtnText');
+        const loadingState = document.getElementById('loadingState');
+        const resultContainer = document.getElementById('resultContainer');
+        const resultImage = document.getElementById('resultImage');
+        const resultPrompt = document.getElementById('resultPrompt');
+        const historyGrid = document.getElementById('historyGrid');
+        const notification = document.getElementById('notification');
+        const notifyText = document.getElementById('notifyText');
+        const notifyIcon = document.getElementById('notifyIcon');
+        const freeCounter = document.getElementById('freeCounter');
+        const freeCount = document.getElementById('freeCount');
+        const freeImagesLeft = document.getElementById('freeImagesLeft');
+        const adModal = document.getElementById('adModal');
+        const adProgress = document.getElementById('adProgress');
+
+        const imagePreview = document.getElementById('imagePreview');
+        const uploadPlaceholder = document.getElementById('uploadPlaceholder');
+        const removeImageBtn = document.getElementById('removeImageBtn');
+
+        // Snake Game Variables
+        let snakeGame = null;
+        let snakeCtx = null;
+        let snake = null;
+        let food = null;
+        let direction = null;
+        let gameLoop = null;
+        let score = 0;
+
+        // Initial Render
+        function init() {
+            renderHistory();
+            updateFreeCounter();
+            loadAnalyticsData();
+            initializeFixedChart();
+            startRealTimeUpdates();
+            setupMobileToggle();
+
+            // Update every 30 seconds
+            setInterval(() => {
+                trackUserStats();
+                updateFixedAnalytics();
+                updateFixedChart();
+            }, 30000);
+        }
+
+        // Setup mobile toggle button
+        function setupMobileToggle() {
+            const toggleBtn = document.getElementById('graphToggleBtn');
+            const panel = document.getElementById('fixedAnalyticsPanel');
+
+            if (window.innerWidth < 1200) {
+                toggleBtn.classList.remove('hidden');
+                panel.style.display = 'none';
+                analyticsPanelVisible = false;
+            }
+
+            toggleBtn.addEventListener('click', function () {
+                if (analyticsPanelVisible) {
+                    panel.style.display = 'none';
+                    toggleBtn.innerHTML = '<i class="fas fa-chart-line text-white"></i>';
+                } else {
+                    panel.style.display = 'block';
+                    toggleBtn.innerHTML = '<i class="fas fa-times text-white"></i>';
+                }
+                analyticsPanelVisible = !analyticsPanelVisible;
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', function () {
+                if (window.innerWidth >= 1200) {
+                    toggleBtn.classList.add('hidden');
+                    panel.style.display = 'block';
+                } else {
+                    toggleBtn.classList.remove('hidden');
+                    if (!analyticsPanelVisible) {
+                        panel.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        // Toggle analytics panel
+        function toggleAnalyticsPanel() {
+            const panel = document.getElementById('fixedAnalyticsPanel');
+            if (window.innerWidth < 1200) {
+                panel.style.display = 'none';
+                document.getElementById('graphToggleBtn').innerHTML = '<i class="fas fa-chart-line text-white"></i>';
+                analyticsPanelVisible = false;
+            }
+        }
+
+        // Load Analytics Data from LocalStorage
+        function loadAnalyticsData() {
+            const savedData = localStorage.getItem('dreamgen_analytics');
+            if (savedData) {
+                analyticsData = JSON.parse(savedData);
+            } else {
+                // Initialize with sample data for demo
+                analyticsData = {
+                    totalUsers: 1,
+                    totalImages: history.length || 8,
+                    dailyUsage: {
+                        [new Date().toDateString()]: history.length || 5
+                    },
+                    activeSessions: 5,
+                    peakUsage: 16,
+                    peakHour: 4,
+                    hourlyData: generateSampleHourlyData(),
+                    userGrowth: generateSampleUserGrowth(),
+                    sessionData: generateSampleSessionData()
+                };
+            }
+            updateFixedAnalytics();
+        }
+
+        // Generate sample hourly data
+        function generateSampleHourlyData() {
+            const data = {};
+            for (let i = 0; i < 24; i++) {
+                data[i] = Math.floor(Math.random() * 20);
+            }
+            // Set peak at 4:00
+            data[4] = 16;
+            return data;
+        }
+
+        // Generate sample user growth data
+        function generateSampleUserGrowth() {
+            const growth = [];
+            const today = new Date();
+            for (let i = 30; i >= 0; i--) {
+                const date = new Date(today);
+                date.setDate(date.getDate() - i);
+                growth.push({
+                    date: date.toDateString(),
+                    newUsers: i === 0 ? 1 : Math.floor(Math.random() * 3),
+                    totalUsers: Math.max(1, Math.floor(Math.random() * 10))
+                });
+            }
+            return growth;
+        }
+
+        // Generate sample session data
+        function generateSampleSessionData() {
+            const sessions = [];
+            for (let i = 0; i < 5; i++) {
+                const time = new Date();
+                time.setMinutes(time.getMinutes() - i * 10);
+                sessions.push({
+                    startTime: time.toISOString(),
+                    duration: Math.floor(Math.random() * 600) + 60 // 1-10 minutes
+                });
+            }
+            return sessions;
+        }
+
+        // Save Analytics Data to LocalStorage
+        function saveAnalyticsData() {
+            localStorage.setItem('dreamgen_analytics', JSON.stringify(analyticsData));
+        }
+
+        // Track User Statistics
+        function trackUserStats() {
+            const now = new Date();
+            const today = now.toDateString();
+            const hour = now.getHours();
+
+            // Generate unique user ID if not exists
+            let userId = localStorage.getItem('dg_user_id');
+            if (!userId) {
+                userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('dg_user_id', userId);
+                analyticsData.totalUsers++;
+
+                // Track new user
+                analyticsData.userGrowth.push({
+                    date: today,
+                    newUsers: 1,
+                    totalUsers: analyticsData.totalUsers
+                });
+            }
+
+            // Update daily usage
+            if (!analyticsData.dailyUsage[today]) {
+                analyticsData.dailyUsage[today] = 0;
+            }
+
+            // Update hourly data
+            if (!analyticsData.hourlyData[hour]) {
+                analyticsData.hourlyData[hour] = 0;
+            }
+            analyticsData.hourlyData[hour]++;
+
+            // Update peak usage
+            if (analyticsData.hourlyData[hour] > analyticsData.peakUsage) {
+                analyticsData.peakUsage = analyticsData.hourlyData[hour];
+                analyticsData.peakHour = hour;
+            }
+
+            // Track session
+            analyticsData.sessionData.push({
+                startTime: now.toISOString(),
+                duration: 300 // 5 minutes default
+            });
+
+            // Keep only last 100 sessions
+            if (analyticsData.sessionData.length > 100) {
+                analyticsData.sessionData = analyticsData.sessionData.slice(-100);
+            }
+
+            // Calculate active sessions (last 30 minutes)
+            const thirtyMinutesAgo = Date.now() - 30 * 60 * 1000;
+            analyticsData.activeSessions = analyticsData.sessionData.filter(s =>
+                new Date(s.startTime).getTime() > thirtyMinutesAgo
+            ).length;
+
+            saveAnalyticsData();
+            updateStatsDisplay();
+        }
+
+        // Update Fixed Analytics Display
+        function updateFixedAnalytics() {
+            // Update stats counters
+            document.getElementById('fixedTotalUsers').textContent = analyticsData.totalUsers;
+            document.getElementById('fixedTotalImages').textContent = history.length || analyticsData.totalImages;
+
+            // Calculate today's stats
+            const today = new Date().toDateString();
+            const yesterday = new Date(Date.now() - 86400000).toDateString();
+
+            // Update new users today
+            const newUsersToday = analyticsData.userGrowth.filter(u => u.date === today)
+                .reduce((sum, u) => sum + u.newUsers, 0);
+            document.getElementById('fixedNewUsers').textContent = `+${newUsersToday} today`;
+
+            // Update images today
+            const imagesToday = analyticsData.dailyUsage[today] || 0;
+            document.getElementById('fixedImagesToday').textContent = `+${imagesToday} today`;
+
+            // Update active sessions
+            document.getElementById('fixedActiveSessions').textContent = analyticsData.activeSessions;
+
+            // Update peak usage
+            document.getElementById('fixedPeakUsage').textContent = analyticsData.peakUsage;
+            if (analyticsData.peakHour !== null) {
+                document.getElementById('fixedPeakTime').textContent = `${analyticsData.peakHour}:00`;
+            }
+
+            // Update activity bar
+            const activityLevel = Math.min(analyticsData.activeSessions / 10 * 100, 100);
+            document.getElementById('fixedActivityBar').style.width = `${activityLevel}%`;
+            document.getElementById('fixedActivityLevel').textContent = `${Math.round(activityLevel)}%`;
+        }
+
+        // Refresh analytics manually
+        function refreshAnalytics() {
+            trackUserStats();
+            updateFixedAnalytics();
+            updateFixedChart();
+            showNotification('Analytics refreshed!', 'success');
+        }
+
+        // Initialize Fixed Chart
+        function initializeFixedChart() {
+            const ctx = document.getElementById('fixedChart').getContext('2d');
+
+            // Generate last 30 days labels (shortened for small chart)
+            const labels = [];
+            for (let i = 29; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                // Use abbreviated format for small chart
+                if (i % 5 === 0 || i === 29 || i === 0) {
+                    labels.push(date.getDate() + '/' + (date.getMonth() + 1));
+                } else {
+                    labels.push('');
+                }
+            }
+
+            // Generate data for each metric (scaled down for small chart)
+            const totalUsersData = generateTrendData(30, analyticsData.totalUsers, 0.1, 50);
+            const imagesData = generateTrendData(30, history.length || analyticsData.totalImages, 0.3, 30);
+            const sessionsData = generateTrendData(30, analyticsData.activeSessions, 0.5, 20);
+            const peakData = generateTrendData(30, analyticsData.peakUsage, 0.2, 40);
+
+            fixedChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Users',
+                            data: totalUsersData,
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 0,
+                            pointHoverRadius: 3
+                        },
+                        {
+                            label: 'Images',
+                            data: imagesData,
+                            borderColor: '#8b5cf6',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 0,
+                            pointHoverRadius: 3
+                        },
+                        {
+                            label: 'Active',
+                            data: sessionsData,
+                            borderColor: '#10b981',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 0,
+                            pointHoverRadius: 3
+                        },
+                        {
+                            label: 'Peak',
+                            data: peakData,
+                            borderColor: '#ef4444',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 0,
+                            pointHoverRadius: 3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: '#3b82f6',
+                            borderWidth: 1,
+                            cornerRadius: 6,
+                            padding: 8,
+                            displayColors: false,
+                            callbacks: {
+                                label: function (context) {
+                                    const datasets = context.chart.data.datasets;
+                                    let label = '';
+                                    datasets.forEach((dataset, i) => {
+                                        if (dataset.data[context.dataIndex] !== undefined) {
+                                            const colors = ['#3b82f6', '#8b5cf6', '#10b981', '#ef4444'];
+                                            const labels = ['Users: ', 'Images: ', 'Active: ', 'Peak: '];
+                                            label += `${labels[i]}${dataset.data[context.dataIndex]}\n`;
+                                        }
+                                    });
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#9ca3af',
+                                font: {
+                                    size: 9
+                                },
+                                maxTicksLimit: 6
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#9ca3af',
+                                font: {
+                                    size: 9
+                                },
+                                maxTicksLimit: 5,
+                                callback: function (value) {
+                                    if (value >= 1000) return (value / 1000).toFixed(0) + 'k';
+                                    return value;
+                                }
+                            }
+                        }
+                    },
+                    elements: {
+                        line: {
+                            tension: 0.4
+                        }
+                    }
+                }
+            });
+        }
+
+        // Generate trend data for fixed chart
+        function generateTrendData(days, baseValue, volatility, maxValue) {
+            const data = [];
+            let currentValue = baseValue;
+
+            for (let i = 0; i < days; i++) {
+                // Add some random movement
+                const change = (Math.random() - 0.5) * 2 * volatility * currentValue;
+                currentValue = Math.max(1, Math.min(maxValue || 100, currentValue + change));
+                data.push(Math.round(currentValue));
+            }
+
+            return data;
+        }
+
+        // Update Fixed Chart based on time range
+        function updateFixedChart() {
+            const timeRange = parseInt(document.getElementById('fixedTimeRange').value);
+
+            // Generate labels for selected time range
+            const labels = [];
+            const tickInterval = Math.max(1, Math.floor(timeRange / 6));
+
+            for (let i = timeRange - 1; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                // Only show labels at intervals
+                if (i % tickInterval === 0 || i === timeRange - 1 || i === 0) {
+                    if (timeRange <= 30) {
+                        labels.push(date.getDate() + '/' + (date.getMonth() + 1));
+                    } else {
+                        labels.push((date.getMonth() + 1) + '/' + date.getDate());
+                    }
+                } else {
+                    labels.push('');
+                }
+            }
+
+            // Update chart data
+            fixedChart.data.labels = labels;
+
+            // Update each dataset with new data
+            const maxVal = timeRange <= 30 ? 50 : 100;
+            fixedChart.data.datasets[0].data = generateTrendData(timeRange, analyticsData.totalUsers, 0.1, maxVal);
+            fixedChart.data.datasets[1].data = generateTrendData(timeRange, history.length || analyticsData.totalImages, 0.3, maxVal);
+            fixedChart.data.datasets[2].data = generateTrendData(timeRange, analyticsData.activeSessions, 0.5, maxVal);
+            fixedChart.data.datasets[3].data = generateTrendData(timeRange, analyticsData.peakUsage, 0.2, maxVal);
+
+            fixedChart.update('none');
+        }
+
+        // Start real-time updates
+        function startRealTimeUpdates() {
+            // Simulate real-time data updates
+            setInterval(() => {
+                // Add some random activity
+                const hour = new Date().getHours();
+                if (analyticsData.hourlyData[hour] !== undefined) {
+                    analyticsData.hourlyData[hour] += Math.floor(Math.random() * 3);
+                }
+
+                // Update active sessions
+                analyticsData.activeSessions = Math.max(1,
+                    Math.floor(analyticsData.activeSessions + (Math.random() - 0.5) * 2)
+                );
+
+                // Update daily usage
+                const today = new Date().toDateString();
+                analyticsData.dailyUsage[today] = (analyticsData.dailyUsage[today] || 0) + Math.floor(Math.random());
+
+                saveAnalyticsData();
+                updateFixedAnalytics();
+            }, 10000); // Update every 10 seconds
+        }
+
+        function updateStatsDisplay() {
+            const today = new Date().toDateString();
+            const yesterday = new Date(Date.now() - 86400000).toDateString();
+
+            // Calculate percentage change
+            const todayUsage = analyticsData.dailyUsage[today] || 0;
+            const yesterdayUsage = analyticsData.dailyUsage[yesterday] || 0;
+            let percentChange = 0;
+
+            if (yesterdayUsage > 0) {
+                percentChange = Math.round(((todayUsage - yesterdayUsage) / yesterdayUsage) * 100);
+            } else if (todayUsage > 0) {
+                percentChange = 100;
+            }
+
+            // Update display
+            document.getElementById('totalUsers').textContent = analyticsData.totalUsers;
+            document.getElementById('usagePercent').textContent = `${percentChange > 0 ? '+' : ''}${percentChange}%`;
+            document.getElementById('activeUsers').textContent = analyticsData.activeSessions;
+        }
+
+        // Snake Game Functions
+        function openSnakeGame() {
+            document.getElementById('snakeGameContainer').classList.remove('hidden');
+            updateStatsDisplay();
+            initSnakeGame();
+        }
+
+        function closeSnakeGame() {
+            document.getElementById('snakeGameContainer').classList.add('hidden');
+            if (gameLoop) {
+                clearInterval(gameLoop);
+            }
+        }
+
+        function initSnakeGame() {
+            const canvas = document.getElementById('snakeGame');
+            snakeCtx = canvas.getContext('2d');
+
+            // Initialize snake
+            snake = [
+                { x: 10, y: 10 },
+                { x: 9, y: 10 },
+                { x: 8, y: 10 }
+            ];
+
+            // Initialize food
+            food = {
+                x: Math.floor(Math.random() * 20),
+                y: Math.floor(Math.random() * 20)
+            };
+
+            direction = 'right';
+            score = 0;
+
+            // Draw initial state
+            drawSnakeGame();
+        }
+
+        function startSnakeGame() {
+            if (gameLoop) clearInterval(gameLoop);
+
+            // Keyboard controls
+            document.addEventListener('keydown', (e) => {
+                switch (e.key) {
+                    case 'ArrowUp': if (direction !== 'down') direction = 'up'; break;
+                    case 'ArrowDown': if (direction !== 'up') direction = 'down'; break;
+                    case 'ArrowLeft': if (direction !== 'right') direction = 'left'; break;
+                    case 'ArrowRight': if (direction !== 'left') direction = 'right'; break;
+                }
+            });
+
+            // Start game loop
+            gameLoop = setInterval(() => {
+                moveSnake();
+                checkCollision();
+                checkFood();
+                drawSnakeGame();
+            }, 150);
+        }
+
+        function moveSnake() {
+            const head = { ...snake[0] };
+
+            switch (direction) {
+                case 'up': head.y--; break;
+                case 'down': head.y++; break;
+                case 'left': head.x--; break;
+                case 'right': head.x++; break;
+            }
+
+            snake.unshift(head);
+            snake.pop();
+        }
+
+        function checkCollision() {
+            const head = snake[0];
+
+            // Wall collision
+            if (head.x < 0 || head.x >= 20 || head.y < 0 || head.y >= 20) {
+                gameOver();
+            }
+
+            // Self collision
+            for (let i = 1; i < snake.length; i++) {
+                if (head.x === snake[i].x && head.y === snake[i].y) {
+                    gameOver();
+                }
+            }
+        }
+
+        function checkFood() {
+            const head = snake[0];
+
+            if (head.x === food.x && head.y === food.y) {
+                // Grow snake
+                snake.push({ ...snake[snake.length - 1] });
+
+                // Generate new food
+                food = {
+                    x: Math.floor(Math.random() * 20),
+                    y: Math.floor(Math.random() * 20)
+                };
+
+                // Increase score
+                score += 10;
+            }
+        }
+
+        function drawSnakeGame() {
+            // Clear canvas
+            snakeCtx.fillStyle = '#0f172a';
+            snakeCtx.fillRect(0, 0, 400, 400);
+
+            // Draw grid
+            snakeCtx.strokeStyle = '#1e293b';
+            for (let i = 0; i <= 20; i++) {
+                // Vertical lines
+                snakeCtx.beginPath();
+                snakeCtx.moveTo(i * 20, 0);
+                snakeCtx.lineTo(i * 20, 400);
+                snakeCtx.stroke();
+
+                // Horizontal lines
+                snakeCtx.beginPath();
+                snakeCtx.moveTo(0, i * 20);
+                snakeCtx.lineTo(400, i * 20);
+                snakeCtx.stroke();
+            }
+
+            // Draw snake
+            snake.forEach((segment, index) => {
+                snakeCtx.fillStyle = index === 0 ? '#10b981' : '#34d399';
+                snakeCtx.fillRect(segment.x * 20, segment.y * 20, 18, 18);
+            });
+
+            // Draw food
+            snakeCtx.fillStyle = '#ef4444';
+            snakeCtx.beginPath();
+            snakeCtx.arc(food.x * 20 + 10, food.y * 20 + 10, 8, 0, Math.PI * 2);
+            snakeCtx.fill();
+
+            // Draw score
+            snakeCtx.fillStyle = 'white';
+            snakeCtx.font = '16px monospace';
+            snakeCtx.fillText(`Score: ${score}`, 10, 20);
+        }
+
+        function gameOver() {
+            clearInterval(gameLoop);
+            alert(`Game Over! Your score: ${score}`);
+            initSnakeGame();
+        }
+
+        // Snake Game Event Listener
+        document.getElementById('snakeGameBtn').addEventListener('click', openSnakeGame);
+
+        function updateFreeCounter() {
+            const freeLeft = MAX_FREE_IMAGES - freeImagesUsed;
+            freeCount.textContent = freeLeft;
+            freeImagesLeft.textContent = freeLeft;
+
+            if (freeLeft <= 0) {
+                freeCounter.style.display = 'none';
+                generateBtnText.textContent = 'Watch Ad & Generate';
+            } else {
+                freeCounter.style.display = 'block';
+                generateBtnText.textContent = 'Generate Free';
+            }
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    selectedImageBase64 = e.target.result;
+                    imagePreview.src = selectedImageBase64;
+                    imagePreview.classList.remove('hidden');
+                    uploadPlaceholder.classList.add('hidden');
+                    removeImageBtn.classList.remove('hidden');
+                    showNotification('Reference image uploaded!', 'success');
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeImage(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            selectedImageBase64 = null;
+            document.getElementById('imageUpload').value = '';
+            imagePreview.classList.add('hidden');
+            uploadPlaceholder.classList.remove('hidden');
+            removeImageBtn.classList.add('hidden');
+        }
+
+        function showNotification(message, type = 'info') {
+            notifyText.innerText = message;
+            notifyIcon.className = type === 'error' ? 'fas fa-exclamation-circle text-red-500' :
+                type === 'success' ? 'fas fa-check-circle text-green-500' :
+                    'fas fa-info-circle text-blue-500';
+            notification.parentElement.querySelector('#notification').classList.replace('translate-y-20', 'translate-y-0');
+            notification.parentElement.querySelector('#notification').classList.replace('opacity-0', 'opacity-100');
+
+            setTimeout(() => {
+                notification.parentElement.querySelector('#notification').classList.replace('translate-y-0', 'translate-y-20');
+                notification.parentElement.querySelector('#notification').classList.replace('opacity-100', 'opacity-0');
+            }, 3000);
+        }
+
+        function checkAndGenerate() {
+            const prompt = promptInput.value.trim();
+
+            if (!prompt) {
+                showNotification('Please enter a prompt first!', 'error');
+                return;
+            }
+
+            // Check if user has free images left
+            if (freeImagesUsed < MAX_FREE_IMAGES) {
+                // Use free image
+                freeImagesUsed++;
+                localStorage.setItem('dg_free_images', freeImagesUsed);
+                updateFreeCounter();
+                generateImage(prompt);
+                showNotification(`Free image used! ${MAX_FREE_IMAGES - freeImagesUsed} free images remaining.`, 'success');
+            } else {
+                // Show ad modal
+                showAdModal();
+            }
+        }
+
+        function showAdModal() {
+            adModal.classList.remove('hidden');
+            adProgress.style.width = '0%';
+
+            // Simulate ad progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 1;
+                adProgress.style.width = progress + '%';
+                if (progress >= 100) {
+                    clearInterval(interval);
+                }
+            }, 50);
+        }
+
+        function watchAdComplete() {
+            adModal.classList.add('hidden');
+            const prompt = promptInput.value.trim();
+            showNotification('Thank you for watching the ad! Generating your image...', 'success');
+            setTimeout(() => {
+                generateImage(prompt);
+            }, 500);
+        }
+
+        function skipAd() {
+            adModal.classList.add('hidden');
+            showNotification('Please watch the ad to generate images', 'info');
+        }
+
+        async function generateImage(prompt) {
+            // UI feedback
+            generateBtn.disabled = true;
+            generateBtn.classList.add('opacity-50');
+            loadingState.classList.remove('hidden');
+            resultContainer.classList.add('hidden');
+
+            try {
+                // Enhance prompt if image is uploaded (Simulation of Image-to-Image for UX)
+                let enhancedPrompt = prompt;
+                if (selectedImageBase64) {
+                    enhancedPrompt += " (based on provided visual reference style)";
+                }
+
+                // Call AI Image API
+                const seed = Math.floor(Math.random() * 1000000);
+                const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(enhancedPrompt)}?seed=${seed}&width=1024&height=1024&nologo=true`;
+
+                // Prefetch image to ensure loading state is accurate
+                const img = new Image();
+                img.src = imageUrl;
+                await img.decode();
+
+                // Display result
+                resultImage.src = imageUrl;
+                resultPrompt.innerText = prompt + (selectedImageBase64 ? " (Image Referenced)" : "");
+                resultContainer.classList.remove('hidden');
+
+                // Add to history
+                history.unshift({ prompt: resultPrompt.innerText, url: imageUrl, date: new Date().toISOString() });
+                if (history.length > 8) history.pop();
+                localStorage.setItem('dg_history', JSON.stringify(history));
+
+                // Update analytics
+                analyticsData.totalImages = history.length;
+                const today = new Date().toDateString();
+                analyticsData.dailyUsage[today] = (analyticsData.dailyUsage[today] || 0) + 1;
+                saveAnalyticsData();
+                updateFixedAnalytics();
+                updateFixedChart();
+
+                renderHistory();
+
+                showNotification('Image generated successfully!', 'success');
+
+                // Clear reference image after generation for clean slate
+                if (selectedImageBase64) {
+                    removeImage({ preventDefault: () => { }, stopPropagation: () => { } });
+                }
+
+            } catch (error) {
+                showNotification('Generation failed. Please try again.', 'error');
+            } finally {
+                generateBtn.disabled = false;
+                generateBtn.classList.remove('opacity-50');
+                loadingState.classList.add('hidden');
+            }
+        }
+
+        function renderHistory() {
+            if (history.length === 0) return;
+
+            historyGrid.innerHTML = history.map((item, index) => `
+                <div class="glass rounded-2xl overflow-hidden group relative aspect-square">
+                    <img src="${item.url}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition p-4 flex flex-col justify-end">
+                        <p class="text-xs text-white line-clamp-2">${item.prompt}</p>
+                        <button onclick="downloadSpecific('${item.url}')" class="mt-2 text-[10px] font-bold uppercase tracking-wider text-blue-400">Download</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function downloadImage() {
+            const link = document.createElement('a');
+            link.href = resultImage.src;
+            link.download = `DreamGen-${Date.now()}.jpg`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function downloadSpecific(url) {
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `DreamGen-${Date.now()}.jpg`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function shareImage() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My AI Art',
+                    text: `Check out this AI art I generated on DreamGen: "${resultPrompt.innerText}"`,
+                    url: resultImage.src
+                });
+            } else {
+                showNotification('Sharing not supported on this browser.', 'info');
+            }
+        }
+
+        // Run Init
+        init();
+
+    </script>
+</body>
+
+</html>
